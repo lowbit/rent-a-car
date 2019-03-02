@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rentacar.Data.Models
 {
-    class Tipovi_korisnickog_naloga
+    public class Tipovi_korisnickog_naloga
     {
         public string Naziv { get; set; }
         public List<string> Permisije { get; set; }

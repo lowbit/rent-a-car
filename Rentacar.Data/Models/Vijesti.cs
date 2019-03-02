@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rentacar.Data.Models
 {
-    class Vijesti
+    public class Vijesti
     {
         public string Naslov { get; set; }
         public string Slika { get; set; }
@@ -12,6 +12,6 @@ namespace Rentacar.Data.Models
         public string Sadrzaj { get; set; }
         public DateTime Datum_i_vrijeme_objave { get; set; }
         public int Ukupno_pregleda { get; set; }
-        public Korisnicki_nalog Autor { get; set; }
+        public virtual Korisnicki_nalog Autor { get; set; }
     }
 }
