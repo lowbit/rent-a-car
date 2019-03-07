@@ -8,7 +8,7 @@ namespace Rentacar.Data.Models
     {
         public int Id { get; set; }
         public string Naziv { get; set; }
-        public List<Permisije> Permisije { get; set; }
+        public string Permisije { get; set; }
         public string Opis { get; set; }
 
     }
