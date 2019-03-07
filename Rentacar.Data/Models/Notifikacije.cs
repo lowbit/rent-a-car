@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Rentacar.Data.Models
 {
-    class Notifikacije
+    public class Notifikacije
     {
         [Key]
         public int Id { get; set; }
