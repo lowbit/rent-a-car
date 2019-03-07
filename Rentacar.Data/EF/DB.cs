@@ -14,7 +14,7 @@ namespace Rentacar.Data.EF
         {
             GenerateUsers();
         }
-        private static void GenerateUsers()
+        public static void GenerateUsers()
         {
             Korisnici k = new Korisnici();
             k.Ime = "John";

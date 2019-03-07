@@ -6,6 +6,7 @@ namespace Rentacar.Data.Models
 {
     public class Vijesti
     {
+        public int Id { get; set; }
         public string Naslov { get; set; }
         public string Slika { get; set; }
         public string URL { get; set; }
