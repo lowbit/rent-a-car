@@ -31,6 +31,8 @@ namespace Rentacar.Web
             services.AddMvc(options =>
             {
             }).AddSessionStateTempDataProvider();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             //services.Configure<CookiePolicyOptions>(options =>
             //{
             //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -54,6 +56,7 @@ namespace Rentacar.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

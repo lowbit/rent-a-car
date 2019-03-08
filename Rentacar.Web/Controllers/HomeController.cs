@@ -30,5 +30,9 @@ namespace Rentacar.Web.Controllers
             }
             return View(_db);
         }
+        public IActionResult Autentifikacija()
+        {
+            return View();
+        }
     }
 }

@@ -5,17 +5,20 @@ namespace Rentacar.Data.EF
 {
     public class MyContext : DbContext
     {
-        public MyContext(DbContextOptions<MyContext> options) : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server =app.fit.ba; Database =p1848_rentacar; Trusted_Connection = False; MultipleActiveResultSets = true; User ID =p1848; Password =Ph%*aqArWE#9M#s%");
+        }
+        public MyContext(DbContextOptions<MyContext> x) : base(x)
         {
 
         }
+        public MyContext() { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-
         }
-
         public DbSet<Korisnici> Korisnicis { set; get; }
         public DbSet<Korisnicki_nalog> Korisnicki_nalogs { set; get; }
         public DbSet<Tipovi_korisnickog_naloga> Tipovi_korisnickog_nalogas { set; get; }
@@ -33,7 +36,6 @@ namespace Rentacar.Data.EF
         public DbSet<Proizvodjaci> Proizvodjacis { set; get; }
         public DbSet<Saloni> Salonis { set; get; }
         public DbSet<Servisi> Servisis { set; get; }
-        public DbSet<Tipovi_korisnickog_naloga> Tipovi_Korisnickog_Nalogas { set; get; }
         public DbSet<Uplate> Uplates { set; get; }
         public DbSet<Utisci> Utiscis { set; get; }
         public DbSet<Vozila> Vozilas { set; get; }
