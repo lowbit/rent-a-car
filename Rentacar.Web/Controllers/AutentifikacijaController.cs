@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rentacar.Data.EF;
 using Rentacar.Web.ViewModels;
 using Rentacar.Data.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Rentacar.Web.Controllers
 {
