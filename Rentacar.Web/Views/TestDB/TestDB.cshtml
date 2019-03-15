@@ -1,0 +1,103 @@
+﻿@using Rentacar.Web.ViewModels
+@{
+    ViewData["Title"] = "TestDB";
+    var testDBCounts = (TestDBVM)ViewData["testDBCounts"];
+}
+
+<h2>TestDB - Count Items in all tables</h2>
+<br />
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th>Tabela:</th>
+            <th>Broj redova:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Detalji Servisa:</td>
+            <td>@testDBCounts.DetaljiServisa</td>
+        </tr>
+        <tr>
+            <td>Gradovi:</td>
+            <td>@testDBCounts.Gradovi</td>
+        </tr>
+        <tr>
+            <td>Kategorije: </td>
+            <td>@testDBCounts.Kategorije</td>
+        </tr>
+        <tr>
+            <td>Komentari:</td>
+            <td>@testDBCounts.Komentari</td>
+        </tr>
+        <tr>
+            <td>Korisnici:</td>
+            <td>@testDBCounts.Korisnici</td>
+        </tr>
+        <tr>
+            <td>Korisnicki_nalog:</td>
+            <td>@testDBCounts.Korisnicki_nalog</td>
+        </tr>
+        <tr>
+            <td>Modeli:</td>
+            <td>@testDBCounts.Modeli</td>
+        </tr>
+        <tr>
+            <td>Nalog:</td>
+            <td>@testDBCounts.Nalog</td>
+        </tr>
+        <tr>
+            <td>Notifikacije:</td>
+            <td>@testDBCounts.Notifikacije</td>
+        </tr>
+        <tr>
+            <td>Opcine:</td>
+            <td>@testDBCounts.Opcine</td>
+        </tr>
+        <tr>
+            <td>Podmodeli:</td>
+            <td>@testDBCounts.Podmodeli</td>
+        </tr>
+        <tr>
+            <td>Polozene_kategorije:</td>
+            <td>@testDBCounts.Polozene_kategorije</td>
+        </tr>
+        <tr>
+            <td>Proizvodjaci:</td>
+            <td>@testDBCounts.Proizvodjaci</td>
+        </tr>
+        <tr>
+            <td>Saloni:</td>
+            <td>@testDBCounts.Saloni</td>
+        </tr>
+        <tr>
+            <td>Servisi:</td>
+            <td>@testDBCounts.Servisi</td>
+        </tr>
+        <tr>
+            <td>Tipovi_korisnickog_naloga:</td>
+            <td>@testDBCounts.Tipovi_korisnickog_naloga</td>
+        </tr>
+        <tr>
+            <td>Uplate:</td>
+            <td>@testDBCounts.Uplate</td>
+        </tr>
+        <tr>
+            <td>Utisci:</td>
+            <td>@testDBCounts.Utisci</td>
+        </tr>
+        <tr>
+            <td>Vijesti:</td>
+            <td>@testDBCounts.Vijesti</td>
+        </tr>
+        <tr>
+            <td>Vozila:</td>
+            <td>@testDBCounts.Vozila</td>
+        </tr>
+        <tr>
+            <td>Zaposlenici:</td>
+            <td>@testDBCounts.Zaposlenici</td>
+        </tr>
+    </tbody>
+</table>
+

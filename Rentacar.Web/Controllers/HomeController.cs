@@ -24,11 +24,8 @@ namespace Rentacar.Web.Controllers
 
         public IActionResult TestDB()
         {
-            if (!_db.Korisnicis.Any())
-            {
-                DbInitialize.GenerateUsers();
-            }
-            return View(_db);
+            _db.Notifikacijes.Count();
+            return View();
         }
         public IActionResult Autentifikacija()
         {

@@ -1,12 +1,12 @@
-﻿@using Rentacar.Data.Models
+﻿@using Rentacar.Web.ViewModels
 @{
     ViewData["Title"] = "GetNovosti";
-    var lista = (List<Notifikacije>)ViewData["NotifikacijeVD"];
+    var ulazniModel = (NovostiGetVM)ViewData["ulazniModel"];
     //var lista2 = (List<Notifikacije>)ViewBag.NovostiVB;
 }
 
 <h2>GetNovosti</h2>
-@foreach (var x in lista)
+@foreach (var x in ulazniModel.rows)
 {
     <h1>@x.Naslov</h1>
     <p>@x.Sadrzaj</p>
