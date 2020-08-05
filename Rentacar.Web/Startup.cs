@@ -26,7 +26,7 @@ namespace Rentacar.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MyContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("fax")));
+            options.UseSqlServer(Configuration.GetConnectionString("fax"), x=>x.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));
 
             services.AddMvc(options =>
             {
