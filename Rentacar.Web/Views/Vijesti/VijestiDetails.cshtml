@@ -1,0 +1,35 @@
+﻿@model Rentacar.Data.Models.Vijesti
+
+@{
+    ViewData["Title"] = "Vijesti Detail";
+}
+<div class="container-fluid">
+    <div class="row">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
+                <a asp-action="Details" asp-route-id="@Model.Id">
+                    <h3>@Html.DisplayFor(modelItem => Model.Naslov)</h3>
+                </a>
+            </div>
+            <div class="col-md-12 text-center paddingArticle">
+                <a asp-action="Details" asp-route-id="@Model.Id">
+                    <img src="~/@Url.Content(Model.Slika)" alt="~/@Html.DisplayFor(modelItem =>Model.Slika)" class="img-rounded vijestiPic padding-md" style="width: auto; height: 400px;">
+                </a>
+            </div>
+            <div class="col-md-12 paddingArticle">
+                @Html.DisplayFor(modelItem => Model.Sadrzaj)
+            </div>
+            <div class="col-md-12 paddingArticle" style="text-align: right;">
+                Ukupno pregleda: @Model.Ukupno_pregleda |
+                Datum: @Model.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy") |
+                <button type="button" class="btn btn-link btn-xs" asp-action="Edit" asp-route-id="@Model.Id">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>

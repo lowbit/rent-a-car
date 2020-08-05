@@ -7,7 +7,6 @@ namespace Rentacar.Data.EF
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server =app.fit.ba; Database =p1848_rentacar; Trusted_Connection = False; MultipleActiveResultSets = true; User ID =p1848; Password =Ph%*aqArWE#9M#s%");
         }
         public MyContext(DbContextOptions<MyContext> x) : base(x)
         {

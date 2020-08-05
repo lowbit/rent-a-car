@@ -27,11 +27,33 @@ body {
 #qrCode {
     margin: 15px;
 }
-
+.vijestiListItem {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* after 3 line show ... */
+    -webkit-box-orient: vertical;
+}
+.vijestiFrame {
+    height: 150px;
+}
+.goback{
+    float:right;
+    display:inline;
+}
+.vijestiPic {
+    object-fit: contain;
+}
+.paddingArticle{
+    padding-top:12px;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
+        display: none;
+    }
+    .goback {
         display: none;
     }
 }

@@ -1,0 +1,76 @@
+﻿@model Rentacar.Web.Shared.PaginatedList<Rentacar.Data.Models.Vijesti>
+
+@{
+    ViewData["Title"] = "Vijesti";
+}
+    <div class="container-fluid">
+        <div class="row">
+            <h2>
+                Vijesti
+                <button type="button" class="btn btn-primary" asp-action="Create" style="float:right">Add</button>
+            </h2>
+        </div>
+        <br />
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <div class="col-md-2 vijestiFrame">
+                        <img src="~/@Url.Content(item.Slika)" alt="~/@Html.DisplayFor(modelItem => item.Slika)" class="img-thumbnail vijestiPic" style="width: auto; height: 100%;">
+                    </div>
+                </a>
+                <div class="col-md-10 vijestiListItem">
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <h3>@Html.DisplayFor(modelItem => item.Naslov)</h3>
+                    </a>
+                    @Html.DisplayFor(modelItem => item.Sadrzaj)
+                </div>
+                <div class="col-md-12" style="text-align: right;">
+                    Ukupno pregleda: @item.Ukupno_pregleda |
+                    Datum: @item.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy") |
+                    <button type="button" class="btn btn-link btn-xs" asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                </div>
+                <!--<div class="col-md-12">
+            <button type="button" class="btn btn-link" asp-action="Details" asp-route-id="@item.Id">Details</button>
+            <button type="button" class="btn btn-link" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
+            </div>-->
+            </div>
+        }
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+        <div class="text-center">
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               class="btn btn-default @prevDisabled">
+                <
+            </a>
+            @if (@Model.HasPreviousPage)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   class="btn btn-link @prevDisabled">
+                    @(Model.PageIndex - 1)
+                </a>
+            }
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex)"
+               class="btn btn-link disabled">
+                @(Model.PageIndex)
+            </a>
+            @if (@Model.HasNextPage)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   class="btn btn-link @nextDisabled">
+                    @(Model.PageIndex + 1)
+                </a>
+            }
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                >
+            </a>
+        </div>
+    </div>
