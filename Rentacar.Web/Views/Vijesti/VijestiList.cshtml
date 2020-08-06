@@ -7,7 +7,7 @@
         <div class="row">
             <h2>
                 Vijesti
-                <button type="button" class="btn btn-primary" asp-action="Create" style="float:right">Add</button>
+                <a type="button" class="btn btn-primary" asp-action="AddEdit" style="float:right">Add</a>
             </h2>
         </div>
         <br />
@@ -28,12 +28,8 @@
                 <div class="col-md-12" style="text-align: right;">
                     Ukupno pregleda: @item.Ukupno_pregleda |
                     Datum: @item.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy") |
-                    <button type="button" class="btn btn-link btn-xs" asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                    <a type="button" class="btn btn-link btn-xs" asp-action="AddEdit" asp-route-id="@item.Id">Edit</a>
                 </div>
-                <!--<div class="col-md-12">
-            <button type="button" class="btn btn-link" asp-action="Details" asp-route-id="@item.Id">Details</button>
-            <button type="button" class="btn btn-link" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
-            </div>-->
             </div>
         }
         @{

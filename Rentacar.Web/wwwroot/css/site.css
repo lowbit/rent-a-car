@@ -47,10 +47,43 @@ body {
 .paddingArticle{
     padding-top:12px;
 }
+/* Add padding and center-align text to the container */
+.deleteContainer {
+    padding: 16px;
+    text-align: center;
+}
+
+/* The Modal (background) */
+.deleteModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.delete-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+.btnDelete{
+    float:right;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
+    .delete-modal-content {
+        width: 100%;
+    }
+        /* Hide captions */
+        .carousel-caption {
         display: none;
     }
     .goback {

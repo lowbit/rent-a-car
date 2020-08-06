@@ -26,9 +26,10 @@
                 @Html.DisplayFor(modelItem => Model.Sadrzaj)
             </div>
             <div class="col-md-12 paddingArticle" style="text-align: right;">
+                Autor: @Model.Autor.Korisnik.Ime @Model.Autor.Korisnik.Prezime |
                 Ukupno pregleda: @Model.Ukupno_pregleda |
                 Datum: @Model.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy") |
-                <button type="button" class="btn btn-link btn-xs" asp-action="Edit" asp-route-id="@Model.Id">Edit</button>
+                <a type="button" class="btn btn-link btn-xs" asp-action="AddEdit" asp-route-id="@Model.Id">Edit</a>
             </div>
         </div>
     </div>

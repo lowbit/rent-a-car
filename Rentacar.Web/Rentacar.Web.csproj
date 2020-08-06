@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\AjaxTest\**" />
+    <Content Remove="Views\AjaxTest\**" />
+    <EmbeddedResource Remove="Views\AjaxTest\**" />
+    <None Remove="Views\AjaxTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.8" />
@@ -17,10 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rentacar.Data\Rentacar.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\AjaxTest\" />
   </ItemGroup>
 
   <ItemGroup>
