@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Rentacar.Data.EF;
 using Rentacar.Data.Models;
 using Rentacar.Web.Shared;
@@ -13,9 +17,13 @@ namespace Rentacar.Web.Controllers
     public class VijestiController : Controller
     {
         private MyContext _context;
-        public VijestiController(MyContext context)
+
+        private readonly IHostingEnvironment _appEnvironment;
+        public VijestiController(MyContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+
+            _appEnvironment = appEnvironment;
         }
         public async Task<IActionResult> Index(
             int? pageNumber)
@@ -32,25 +40,29 @@ namespace Rentacar.Web.Controllers
             {
                 return NotFound();
             }
-            var vijest = await _context.Vijestis.Include(a => a.Autor).ThenInclude(k=>k.Korisnik).AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
+            var vijest = await _context.Vijestis.Include(a => a.Autor).ThenInclude(k => k.Korisnik).AsNoTracking().FirstOrDefaultAsync(v => v.Id == id);
             if (vijest == null)
                 return NotFound();
             vijest.Ukupno_pregleda++;
-            _context.Entry(vijest).CurrentValues.SetValues(vijest);
+            _context.Update(vijest);
             _context.SaveChanges();
             return View("VijestiDetails", vijest);
         }
         public ActionResult AddEdit(int? id)
         {
-            if(id == null)
+            if (id == null)
                 return View("VijestiAddEdit");
-            return View("VijestiAddEdit", _context.Vijestis.FirstOrDefault(v=> v.Id == id));
+            return View("VijestiAddEdit", _context.Vijestis.FirstOrDefault(v => v.Id == id));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Add([Bind("Naslov, Slika, URL, Sadrzaj")] Vijesti model)
+        public async Task<ActionResult> Add([Bind("Naslov, Slika, URL, Sadrzaj")] Vijesti model, IFormFile file)
         {
-            //Dodati logovanog korisnika kao autora i postaviti broj pregleda na 0
+            var filePath = UploadImage(file).Result;
+            if (filePath == "")
+            {
+                ModelState.AddModelError("Slika", "Niste dodali sliku za upload");
+            }
             try
             {
                 if (ModelState.IsValid)
@@ -60,7 +72,7 @@ namespace Rentacar.Web.Controllers
                     //Until login system implemented correctly
                     var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
                     model.AutorId = kNalog.Result.Id;
-
+                    model.Slika = filePath;
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = model.Id });
@@ -77,13 +89,17 @@ namespace Rentacar.Web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind("Id, Naslov, Slika, URL, Sadrzaj")] Vijesti model)
+        public async Task<ActionResult> Edit([Bind("Id, Naslov, Slika, URL, Sadrzaj, Ukupno_pregleda")] Vijesti model, IFormFile file)
         {
-
+            var filePath = UploadImage(file).Result;
             try
             {
                 if (ModelState.IsValid)
                 {
+                    if (filePath != "")
+                    {
+                        model.Slika = filePath;
+                    }
                     model.Datum_i_vrijeme_objave = DateTime.Now;
                     //Until login system implemented correctly
                     var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
@@ -119,6 +135,23 @@ namespace Rentacar.Web.Controllers
                 //Log error once logging implemented
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public async Task<string> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return "";
+
+            var timeString = DateTime.Now.ToString("dd.MM.yyyy_HH.mm.ss.");
+            string path_Root = _appEnvironment.WebRootPath;
+            string path_to_Images = path_Root + "\\images\\vijesti\\" + timeString + file.FileName;
+            using (var stream = new FileStream(path_to_Images, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            ViewData["FilePath"] = path_to_Images;
+            var filePath = "images/vijesti/" + timeString + file.FileName;
+            return filePath;
         }
     }
 }
