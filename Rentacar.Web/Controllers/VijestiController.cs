@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Rentacar.Data.EF;
 using Rentacar.Data.Models;
 using Rentacar.Web.Shared;
+using Rentacar.Web.ViewModels;
 
 namespace Rentacar.Web.Controllers
 {
@@ -46,7 +47,10 @@ namespace Rentacar.Web.Controllers
             vijest.Ukupno_pregleda++;
             _context.Update(vijest);
             _context.SaveChanges();
-            return View("VijestiDetails", vijest);
+            VijestDetailVM vijestVM = new VijestDetailVM();
+            vijestVM.Vijest = vijest;
+            vijestVM.NoviKomentar = new Komentari();
+            return View("VijestiDetails", vijestVM);
         }
         public ActionResult AddEdit(int? id)
         {
@@ -152,6 +156,33 @@ namespace Rentacar.Web.Controllers
             ViewData["FilePath"] = path_to_Images;
             var filePath = "images/vijesti/" + timeString + file.FileName;
             return filePath;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddKomentar(VijestDetailVM model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    model.NoviKomentar.VijestId = model.Vijest.Id;
+                    model.NoviKomentar.Datum_objave = DateTime.Now;
+                    //Until login system implemented correctly
+                    var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
+                    model.NoviKomentar.AutorId = kNalog.Result.Id;
+                    _context.Add(model.NoviKomentar);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { id = model.Vijest.Id });
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
+            }
+            return RedirectToAction(nameof(Details), new { id = model.Vijest.Id });
         }
     }
 }
