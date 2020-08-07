@@ -51,7 +51,7 @@ namespace Rentacar.Web.Controllers
         public ActionResult AddEdit(int? id)
         {
             if (id == null)
-                return View("VijestiAddEdit");
+                return View("VijestiAddEdit", new Vijesti());
             return View("VijestiAddEdit", _context.Vijestis.FirstOrDefault(v => v.Id == id));
         }
         [HttpPost]

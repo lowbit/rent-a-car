@@ -10,9 +10,12 @@ namespace Rentacar.Data.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Naslov { get; set; }
         public string Slika { get; set; }
         public string URL { get; set; }
+        [Required]
+        [MinLength(40)]
         public string Sadrzaj { get; set; }
         public DateTime Datum_i_vrijeme_objave { get; set; }
         public int Ukupno_pregleda { get; set; }

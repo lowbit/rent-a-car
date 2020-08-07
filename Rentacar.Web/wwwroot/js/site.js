@@ -21,4 +21,5 @@ $('#uploadPicture').on('change', function () {
     var result = 'File: ' + fileName.substr(index + 1) + ' is ready for upload.';
     //replace the "Choose a file" label
     $('.uploadPictureLabel label').append(result);
+    $('.uploadPictureLabel span').empty();
 })

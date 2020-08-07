@@ -52,11 +52,13 @@
                     <img src="~/@Url.Content(Model.Slika)" alt="~/@Html.DisplayFor(modelItem => Model.Slika)" class="img-thumbnail vijestiPic" style="width: auto; height: 100%;">
                 }
                 <input asp-for="Slika" class="form-control" type="hidden" />
-                <label class="btn btn-link btn-sm">
-                    Upload new picture<input type="file" name="file" style="display:none" id="uploadPicture" />
-                </label>
-                <span asp-validation-for="Slika" class="label label-warning"></span>
+                <div>
+                    <label class="btn btn-link btn-sm">
+                        Upload new picture<input type="file" name="file" style="display:none" id="uploadPicture" />
+                    </label>
+                </div>
                 <div class="uploadPictureLabel">
+                    <span asp-validation-for="Slika" class="label label-warning"></span>
                     <label class="label label-success"></label>
                 </div>
             </div>
