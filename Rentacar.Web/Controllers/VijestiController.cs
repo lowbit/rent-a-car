@@ -49,6 +49,8 @@ namespace Rentacar.Web.Controllers
             _context.SaveChanges();
             VijestDetailVM vijestVM = new VijestDetailVM();
             vijestVM.Vijest = vijest;
+
+            vijestVM.Komentari = await _context.Komentaris.Where(k => k.VijestId == id).Include(a => a.Autor).ThenInclude(k => k.Korisnik).AsNoTracking().ToListAsync();
             vijestVM.NoviKomentar = new Komentari();
             return View("VijestiDetails", vijestVM);
         }

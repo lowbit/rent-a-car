@@ -12,6 +12,7 @@ namespace Rentacar.Data.Models
         public int Id { get; set; }
         [Required]
         [MinLength(4)]
+        [MaxLength(480)]
         public string Sadrzaj { get; set; }
         public DateTime Datum_objave { get; set; }
         [ForeignKey("Autor")]
