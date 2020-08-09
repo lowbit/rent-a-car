@@ -58,10 +58,14 @@ namespace Rentacar.Web.Controllers
 
                     return View("LoginUser", "Uspjesno registrovan, prijavite se sa novim korisnikom");
                 }
+                registerUser.Password = "";
+                registerUser.ConfirmPassword = "";
                 return View("RegisterUser", registerUser);
             } 
             catch (Exception ex)
             {
+                registerUser.Password = "";
+                registerUser.ConfirmPassword = "";
                 return View("RegisterUser", registerUser);
             }
         }

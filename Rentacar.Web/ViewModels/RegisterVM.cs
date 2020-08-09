@@ -24,6 +24,10 @@ namespace Rentacar.Web.ViewModels
         [MinLength(8)]
         [Required]
         public string Password { get; set; }
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Potvrdi Password potreban")]
+        [CompareAttribute("Password", ErrorMessage = "Password doesn't match.")]
+        public string ConfirmPassword { get; set; }
         public List<Opcine> Opstine { get; set; }
         public int Opstina { get; set; }
     }
