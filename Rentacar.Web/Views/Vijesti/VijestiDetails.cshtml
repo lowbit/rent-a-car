@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-12 text-center paddingArticle">
                 <a asp-action="Details" asp-route-id="@Model.Vijest.Id">
-                    <img src="~/@Url.Content(Model.Vijest.Slika)" alt="~/@Html.DisplayFor(modelItem =>Model.Vijest.Slika)" class="img-rounded vijestiPic padding-md" style="width: auto; height: 400px;">
+                    <img src="~/@Url.Content(Model.Vijest.Slika)" alt="~/@Html.DisplayFor(modelItem =>Model.Vijest.Slika)" class="img-rounded vijestiPic padding-md" style="width: 100%; height: auto;">
                 </a>
             </div>
             <div class="col-md-12 paddingArticle">
@@ -47,7 +47,7 @@
                         <textarea asp-for="NoviKomentar.Sadrzaj" placeholder="Upišite komentar" class="form-control" rows="2"></textarea>
                         <span asp-validation-for="NoviKomentar.Sadrzaj" class="label label-warning"></span>
                         <div class="form-group">
-                            <input type="submit" value="Objavi komentar" class="btn btn-default" style="float:right" />
+                            <input type="submit" value="Objavi komentar" class="btn btn-default btn-sm" style="float:right" />
                         </div>
                     </div>
                 </form>

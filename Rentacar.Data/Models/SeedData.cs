@@ -31,6 +31,46 @@ namespace Rentacar.Data.Models
                         {
                             Naziv = "Novi Grad",
                             GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Centar",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Hadžići",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Novo Sarajevo",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Ilidža",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Ilijaš",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Stari Grad",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Trnovo",
+                            GradId = context.Gradovis.First().Id
+                        },
+                        new Opcine
+                        {
+                            Naziv = "Vogošća",
+                            GradId = context.Gradovis.First().Id
                         });
                     context.SaveChanges();
                 }
