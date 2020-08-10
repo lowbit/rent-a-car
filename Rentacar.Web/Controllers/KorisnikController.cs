@@ -56,17 +56,49 @@ namespace Rentacar.Web.Controllers
                     _context.Korisnicki_nalogs.Add(nalog);
                     _context.SaveChanges();
 
-                    return View("LoginUser", "Uspjesno registrovan, prijavite se sa novim korisnikom");
+                    return RedirectToAction("Login", "Korisnik", new { tekRegistrovan = true });
                 }
                 registerUser.Password = "";
                 registerUser.ConfirmPassword = "";
+                registerUser.Opstine = _context.Opcines.ToListAsync().Result;
                 return View("RegisterUser", registerUser);
             } 
             catch (Exception ex)
             {
                 registerUser.Password = "";
                 registerUser.ConfirmPassword = "";
+                registerUser.Opstine = _context.Opcines.ToListAsync().Result;
                 return View("RegisterUser", registerUser);
+            }
+        }
+        public IActionResult Login(bool tekRegistrovan)
+        {
+            LoginVM loginModel = new LoginVM();
+            if (tekRegistrovan)
+                loginModel.novoRegistrovan = true;
+            return View("LoginUser", loginModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LoginUser(LoginVM loginUser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var korisnik = _context.Korisnicki_nalogs.FirstOrDefault(k => k.Korsnicko_ime == loginUser.Username && k.Lozinka == loginUser.Password);
+                    if (korisnik != null)
+                        return RedirectToAction("Index", "Home");
+                    else
+                        ModelState.AddModelError("Password", "Korisnicko Ime ili password pogresan!");
+                }
+                loginUser.Password = "";
+                return View("LoginUser", loginUser);
+            }
+            catch (Exception ex)
+            {
+                loginUser.Password = "";
+                return View("LoginUser", loginUser);
             }
         }
     }
