@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rentacar.Data.EF;
+using Rentacar.Data.Models;
 
 namespace Rentacar.Web
 {
@@ -25,8 +27,19 @@ namespace Rentacar.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<Korisnicki_nalog, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<MyContext>();
+            services.AddTransient<SeedData>();
             services.AddDbContext<MyContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("fax"), x=>x.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));
+
 
             services.AddMvc(options =>
             {
@@ -60,6 +73,7 @@ namespace Rentacar.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

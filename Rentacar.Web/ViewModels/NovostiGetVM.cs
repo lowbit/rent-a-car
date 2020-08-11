@@ -13,7 +13,7 @@ namespace Rentacar.Web.ViewModels
             public string Naslov { get; set; }
             public string Sadrzaj { get; set; }
             public string Datum_i_vrijeme_objave { get; set; }
-            public int KorisnikId { get; set; }
+            public string KorisnikId { get; set; }
         }
     }
 

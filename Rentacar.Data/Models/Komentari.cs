@@ -16,7 +16,7 @@ namespace Rentacar.Data.Models
         public string Sadrzaj { get; set; }
         public DateTime Datum_objave { get; set; }
         [ForeignKey("Autor")]
-        public int AutorId { get; set; }
+        public string AutorId { get; set; }
         public Korisnicki_nalog Autor { get; set; }
         [ForeignKey("Vijest")]
         public int VijestId { get; set; }

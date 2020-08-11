@@ -1,16 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Rentacar.Data.Models;
 
 namespace Rentacar.Data.EF
 {
-    public class MyContext : DbContext
+    public class MyContext : IdentityDbContext <Korisnicki_nalog>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlServer("Server =.; Database = p1848_rentacar; Trusted_Connection = true; MultipleActiveResultSets = true");
         }
         public MyContext(DbContextOptions<MyContext> x) : base(x)
         {
-
         }
         public MyContext() { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

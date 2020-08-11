@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rentacar.Data.EF;
 using Rentacar.Web.ViewModels;
@@ -16,7 +17,7 @@ namespace Rentacar.Web.Controllers
         {
             _context = context;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             int userId = 58;
@@ -28,7 +29,7 @@ namespace Rentacar.Web.Controllers
                     Sadrzaj = x.Sadrzaj,
                     Datum_i_vrijeme_objave = x.Datum_i_vrijeme_objave,
                     KorisnikId = x.KorisnikId
-                }).Where(x=>x.KorisnikId== userId).ToList()
+                }).Where(x=>x.KorisnikId.Equals(userId)).ToList()
             };
 
             return View("GetNovosti");

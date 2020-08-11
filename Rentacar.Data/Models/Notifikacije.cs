@@ -15,7 +15,7 @@ namespace Rentacar.Data.Models
         public string Datum_i_vrijeme_objave { get; set; }
         public string Datum_i_vrijeme_pregleda { get; set; }
         [ForeignKey("Korisnik")]
-        public int KorisnikId { get; set; }
+        public string KorisnikId { get; set; }
         public Korisnicki_nalog Korisnik { get; set; }
 
     }

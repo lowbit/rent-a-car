@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Rentacar.Data.Models
 {
-    public class Korisnicki_nalog
+    public class Korisnicki_nalog : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
         public string Korsnicko_ime { get; set; }
         public string Lozinka { get; set; }
         public string Datum_prijave { get; set; }

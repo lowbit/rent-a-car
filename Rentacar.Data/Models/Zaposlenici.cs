@@ -19,7 +19,7 @@ namespace Rentacar.Data.Models
         public string Adresa { get; set; }
         public string Spol { get; set; }
        [ForeignKey("KorisnickiNalog")]
-        public int KorisnickiNalogId { get; set; }
+        public string KorisnickiNalogId { get; set; }
         public Korisnicki_nalog KorisnickiNalog { get; set; }
         [ForeignKey("Grad")]
         public int GradID { get; set; }
