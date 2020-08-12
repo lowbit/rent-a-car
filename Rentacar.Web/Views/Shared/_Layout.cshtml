@@ -35,6 +35,26 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 <ul class="goback nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profil: @User.Identity.Name</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Kupac"))
+                    {
+
+                        <li><a>Notifikacije (X)</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Korisnik" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+
+                        <li><a asp-area="" asp-controller="Korisnik" asp-action="Login">Login</a></li>
+                    }
                     <li><a href="javascript:history.back()"><</a></li>
                 </ul>
             </div>

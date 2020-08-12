@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,11 @@ namespace Rentacar.Web
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<MyContext>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Korisnik/Login";
+                options.AccessDeniedPath = "/Korisnik/Forbidden";
+            });
             services.AddTransient<SeedData>();
             services.AddDbContext<MyContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("fax"), x=>x.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));

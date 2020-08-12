@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rentacar.Data.EF;
@@ -13,9 +14,14 @@ namespace Rentacar.Web.Controllers
     public class KorisnikController : Controller
     {
         private MyContext _context;
-        public KorisnikController (MyContext context)
+        private readonly SignInManager<Korisnicki_nalog> _signInManager;
+        private readonly UserManager<Korisnicki_nalog> _userManager;
+
+        public KorisnikController (MyContext context, SignInManager<Korisnicki_nalog> signInManager, UserManager<Korisnicki_nalog> userManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -29,7 +35,7 @@ namespace Rentacar.Web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterVM registerUser)
+        public async Task<IActionResult> RegisterAsync(RegisterVM registerUser)
         {
             try
             {
@@ -50,11 +56,15 @@ namespace Rentacar.Web.Controllers
                     nalog.Korisnik = korisnik;
                     nalog.Datum_prijave = DateTime.Now.ToString();
                     nalog.Korsnicko_ime = registerUser.Username;
-                    nalog.Lozinka = registerUser.Password;
-                    //Default new user is "Kupac"
-                    nalog.TipId = _context.Tipovi_korisnickog_nalogas.First(tip => tip.Naziv == "Kupac").Id;
                     _context.Korisnicki_nalogs.Add(nalog);
                     _context.SaveChanges();
+                    var result = await _userManager.CreateAsync(nalog, registerUser.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        throw new InvalidOperationException("Could not create new user with Identity");
+                    }
+                    //Default new user is "Kupac"
+                    await _userManager.AddToRoleAsync(nalog, "Kupac");
 
                     return RedirectToAction("Login", "Korisnik", new { tekRegistrovan = true });
                 }
@@ -73,24 +83,44 @@ namespace Rentacar.Web.Controllers
         }
         public IActionResult Login(bool tekRegistrovan)
         {
-            LoginVM loginModel = new LoginVM();
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            LoginVM loginModel = new LoginVM(); 
+            if (Request.Query.Keys.Contains("ReturnUrl"))
+            {
+                loginModel.ReturnUrl = Request.Query["ReturnUrl"].First();
+            }
             if (tekRegistrovan)
-                loginModel.novoRegistrovan = true;
+            {
+                loginModel.NovoRegistrovan = true;
+            }
             return View("LoginUser", loginModel);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult LoginUser(LoginVM loginUser)
+        public async Task<IActionResult> Login(LoginVM loginUser, string RedirectUrl)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var korisnik = _context.Korisnicki_nalogs.FirstOrDefault(k => k.Korsnicko_ime == loginUser.Username && k.Lozinka == loginUser.Password);
-                    if (korisnik != null)
-                        return RedirectToAction("Index", "Home");
+                    var result = await _signInManager.PasswordSignInAsync(loginUser.Username, loginUser.Password, loginUser.RememberMe, false);
+                    if (result.Succeeded)
+                    {
+                        if (loginUser.ReturnUrl!= null)
+                        {
+                            return Redirect(loginUser.ReturnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
                     else
+                    {
                         ModelState.AddModelError("Password", "Korisnicko Ime ili password pogresan!");
+                    }
                 }
                 loginUser.Password = "";
                 return View("LoginUser", loginUser);
@@ -100,6 +130,16 @@ namespace Rentacar.Web.Controllers
                 loginUser.Password = "";
                 return View("LoginUser", loginUser);
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home"); 
+        }
+        public IActionResult Forbidden()
+        {
+            return View("Forbidden");
         }
     }
 }

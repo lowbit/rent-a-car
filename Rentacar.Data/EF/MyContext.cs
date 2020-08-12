@@ -21,7 +21,6 @@ namespace Rentacar.Data.EF
         }
         public DbSet<Korisnici> Korisnicis { set; get; }
         public DbSet<Korisnicki_nalog> Korisnicki_nalogs { set; get; }
-        public DbSet<Tipovi_korisnickog_naloga> Tipovi_korisnickog_nalogas { set; get; }
         public DbSet<Vijesti> Vijestis { set; get; }
         public DbSet<Komentari> Komentaris { set; get; }
         public DbSet<DetaljiServisa> DetaljiServisas { set; get; }

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Zabranjen pristup";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h3>@ViewData["title"]</h3>
+        <p>
+            Izvinite, vaš korisnički nalog nema pristup traženoj formi.
+            <br />
+            Molimo vratite se na početnu stranicu kako bi nastavili koristiti aplikaciju.
+        </p>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="Home">Vrati se</a>
+    </div>
+</div>

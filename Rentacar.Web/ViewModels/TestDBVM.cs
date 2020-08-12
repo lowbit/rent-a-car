@@ -22,7 +22,6 @@ namespace Rentacar.Web.ViewModels
         public int Proizvodjaci { get; set; }
         public int Saloni { get; set; }
         public int Servisi { get; set; }
-        public int Tipovi_korisnickog_naloga { get; set; }
         public int Uplate { get; set; }
         public int Utisci { get; set; }
         public int Vijesti { get; set; }

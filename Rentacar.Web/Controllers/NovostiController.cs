@@ -17,7 +17,7 @@ namespace Rentacar.Web.Controllers
         {
             _context = context;
         }
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             int userId = 58;

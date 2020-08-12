@@ -14,10 +14,12 @@ namespace Rentacar.Data.Models
     {
         private readonly MyContext _context;
         private readonly UserManager<Korisnicki_nalog> _userManager;
-        public SeedData(MyContext context, UserManager<Korisnicki_nalog> userManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public SeedData(MyContext context, UserManager<Korisnicki_nalog> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task Initialize()
         {
@@ -122,41 +124,36 @@ namespace Rentacar.Data.Models
                     });
                 _context.SaveChanges();
             }
-            if (!_context.Tipovi_korisnickog_nalogas.Any())
+            var role1 = new IdentityRole()
             {
-                _context.Tipovi_korisnickog_nalogas.AddRange(
-                    new Tipovi_korisnickog_naloga
-                    {
-                        Naziv = "Administrator",
-                        Opis = "Administrator",
-                        Permisije = "Administrator"
-                    },
-                    new Tipovi_korisnickog_naloga
-                    {
-                        Naziv = "Kupac",
-                        Opis = "Pretrazuje ponude, iznajmljuje vozila.",
-                        Permisije = "Vozila,Saloni,Vijesti - citanje. Komentari, Utisci, - citanje,pisanje i brisanje(samo svoje). Nalog - citanje(samo svoje),pisanje(samo svoje)"
-                    },
-                    new Tipovi_korisnickog_naloga
-                    {
-                        Naziv = "Marketing",
-                        Opis = "Zaduzen za azuriranje i pisanje novosti i brisanje nepozeljnih komentara",
-                        Permisije = "Vijesti - citanje,pisanje i brisanje. Komentari,Utisci - citanje i brisanje"
-                    },
-                    new Tipovi_korisnickog_naloga
-                    {
-                        Naziv = "Prodavac",
-                        Opis = "Unosi uplate.",
-                        Permisije = "Uplate - citanje i pisanje, Nalog - citanje i pisanje"
-                    },
-                    new Tipovi_korisnickog_naloga
-                    {
-                        Naziv = "Logistika",
-                        Opis = "Azurira podatke o vozilima,salonima i servisima",
-                        Permisije = "Vozila,Servisi,Detalji_servisa,Podmodeli,Modeli,Proizvodjaci,Saloni,Opcine,Gradovi - citanje,pisanje i brisanje"
-                    });
-                _context.SaveChanges();
+                Name = "Administrator"
+            };
+            var role2 = new IdentityRole()
+            {
+                Name = "Kupac"
+            };
+            var role3 = new IdentityRole()
+            {
+                Name = "Marketing"
+            };
+            var role4 = new IdentityRole()
+            {
+                Name = "Prodavac"
+            };
+            var role5 = new IdentityRole()
+            {
+                Name = "Logistika"
+            };
+            var roleExists = await _roleManager.FindByNameAsync("Administrator");
+            if (roleExists == null)
+            {
+                await _roleManager.CreateAsync(role1);
+                await _roleManager.CreateAsync(role2);
+                await _roleManager.CreateAsync(role3);
+                await _roleManager.CreateAsync(role4);
+                await _roleManager.CreateAsync(role5);
             }
+                
             if (!_context.Korisnicki_nalogs.Any())
             {
                 Korisnicki_nalog user = new Korisnicki_nalog()
@@ -164,9 +161,7 @@ namespace Rentacar.Data.Models
                     Korsnicko_ime = "administrator",
                     UserName = "administrator",
                     Email = "test@gmail.com",
-                    Lozinka = "administrator",
                     Datum_prijave = DateTime.Now.ToString(),
-                    TipId = _context.Tipovi_korisnickog_nalogas.ToList()[0].Id,
                     KorisnikId = _context.Korisnicis.ToList()[0].Id
                 };
                 var result = await _userManager.CreateAsync(user, "S@rajev0");
@@ -179,9 +174,7 @@ namespace Rentacar.Data.Models
                     Korsnicko_ime = "korisnik",
                     UserName = "korisnik",
                     Email = "test2@gmail.com",
-                    Lozinka = "korisnik",
                     Datum_prijave = DateTime.Now.ToString(),
-                    TipId = _context.Tipovi_korisnickog_nalogas.ToList()[1].Id,
                     KorisnikId = _context.Korisnicis.ToList()[1].Id
                 };
                 result = await _userManager.CreateAsync(user2, "S@rajev0");
@@ -189,6 +182,10 @@ namespace Rentacar.Data.Models
                 {
                     throw new InvalidOperationException("Could not create new user with Identity");
                 }
+                //Add users to roles
+                await _userManager.AddToRoleAsync(user, role1.Name);
+                await _userManager.AddToRoleAsync(user2, role2.Name);
+
                 _context.SaveChanges();
             }
             if (!_context.Vijestis.Any())

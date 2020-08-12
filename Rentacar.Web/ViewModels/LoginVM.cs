@@ -16,6 +16,8 @@ namespace Rentacar.Web.ViewModels
         [MinLength(8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public bool novoRegistrovan { get; set; }
+        public bool RememberMe { get; set; }
+        public bool NovoRegistrovan { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

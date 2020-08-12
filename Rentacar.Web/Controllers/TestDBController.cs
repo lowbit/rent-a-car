@@ -35,7 +35,6 @@ namespace Rentacar.Web.Controllers
                 Proizvodjaci = _context.Proizvodjacis.Count(),
                 Saloni = _context.Salonis.Count(),
                 Servisi = _context.Servisis.Count(),
-                Tipovi_korisnickog_naloga = _context.Tipovi_korisnickog_nalogas.Count(),
                 Uplate = _context.Uplates.Count(),
                 Utisci = _context.Utiscis.Count(),
                 Vijesti = _context.Vijestis.Count(),
