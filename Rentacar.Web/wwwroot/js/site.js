@@ -23,3 +23,7 @@ $('#uploadPicture').on('change', function () {
     $('.uploadPictureLabel label').append(result);
     $('.uploadPictureLabel span').empty();
 })
+//Readonly checkboxes
+$('input[type="checkbox"]').on('click keyup keypress keydown', function (event) {
+    if ($(this).is('[readonly]')) { return false; }
+});

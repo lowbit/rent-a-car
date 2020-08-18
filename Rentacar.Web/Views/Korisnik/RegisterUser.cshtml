@@ -3,47 +3,47 @@
 @{
     ViewData["Title"] = "Registracija korisnika";
 }
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <h2>@ViewData["Title"]</h2>
-            <form asp-action="Register">
-                <div class="form-group">
-                    <label asp-for="Ime" class="control-label"></label>
-                    <input asp-for="Ime" class="form-control" />
-                    <span asp-validation-for="Ime" class="label label-warning"></span>
-                    <label asp-for="Prezime" class="control-label"></label>
-                    <input asp-for="Prezime" class="form-control" />
-                    <span asp-validation-for="Prezime" class="label label-warning"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Opstina" class="control-label"></label>
-                    <select asp-for="Opstina" asp-items="@(new SelectList(Model.Opstine,"Id","Naziv"))" class="form-control"></select>
-                    <span asp-validation-for="Opstina" class="label label-warning"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Username" class="control-label"></label>
-                    <input asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class="label label-warning"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="label label-warning"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="label label-warning"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="label label-warning"></span>
-                </div>
-                <input type="submit" class="btn btn-default" value="Register" />
-            </form>
-        </div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h2>@ViewData["Title"]</h2>
+        <form asp-action="RegisterAsync">
+            <div class="form-group">
+                <label asp-for="Ime" class="control-label"></label>
+                <input asp-for="Ime" class="form-control" />
+                <span asp-validation-for="Ime" class="label label-warning"></span>
+                <label asp-for="Prezime" class="control-label"></label>
+                <input asp-for="Prezime" class="form-control" />
+                <span asp-validation-for="Prezime" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opstina" class="control-label"></label>
+                <select asp-for="Opstina" asp-items="@(new SelectList(Model.Opstine,"Id","Naziv"))" class="form-control"></select>
+                <span asp-validation-for="Opstina" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="label label-warning"></span>
+            </div>
+            <input type="submit" class="btn btn-default" value="Register" />
+        </form>
     </div>
+</div>
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

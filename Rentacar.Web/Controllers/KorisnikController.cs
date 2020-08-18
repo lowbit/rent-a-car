@@ -56,8 +56,10 @@ namespace Rentacar.Web.Controllers
                     nalog.Korisnik = korisnik;
                     nalog.Datum_prijave = DateTime.Now.ToString();
                     nalog.Korsnicko_ime = registerUser.Username;
-                    _context.Korisnicki_nalogs.Add(nalog);
-                    _context.SaveChanges();
+                    nalog.UserName = registerUser.Username;
+                    nalog.Email = registerUser.Email;
+                    //_context.Korisnicki_nalogs.Add(nalog);
+                    //_context.SaveChanges();
                     var result = await _userManager.CreateAsync(nalog, registerUser.Password);
                     if (result != IdentityResult.Success)
                     {

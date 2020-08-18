@@ -51,7 +51,12 @@ body {
     padding: 16px;
     text-align: center;
 }
-
+.dateInput {
+    line-height: 16px!important;
+}
+.form-control[readonly] {
+    background-color: #f8f8f8;
+}
 /* The Modal (background) */
 .deleteModal {
     display: none; /* Hidden by default */

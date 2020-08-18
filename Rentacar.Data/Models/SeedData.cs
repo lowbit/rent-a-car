@@ -510,6 +510,256 @@ namespace Rentacar.Data.Models
                     });
                 _context.SaveChanges();
             }
+            if (!_context.Proizvodjacis.Any())
+            {
+                _context.Proizvodjacis.AddRange(
+                    new Proizvodjaci
+                    {
+                        Naziv = "Volkswagen",
+                        Zemlja_Porijekla = "Germany"
+                    }, 
+                    new Proizvodjaci
+                    {
+                        Naziv = "BMW",
+                        Zemlja_Porijekla = "Germany"
+                    },
+                    new Proizvodjaci
+                    {
+                        Naziv = "Peugeot",
+                        Zemlja_Porijekla = "France"
+                    });
+                _context.SaveChanges();
+            }
+            if (!_context.Modelis.Any())
+            {
+                _context.Modelis.AddRange(
+                    new Modeli
+                    {
+                        Naziv = "Golf 7",
+                        ProizvodjacId = 10,
+                        Tip_vozila = "Hatchback"
+                    }, 
+                    new Modeli
+                    {
+                        Naziv = "3 Serija",
+                        ProizvodjacId = 11,
+                        Tip_vozila = "Sedan"
+                    },
+                    new Modeli
+                    {
+                        Naziv = "5 Serija",
+                        ProizvodjacId = 11,
+                        Tip_vozila = "Sedan"
+                    },
+                    new Modeli
+                    {
+                        Naziv = "207",
+                        ProizvodjacId = 12,
+                        Tip_vozila = "Hatchback"
+                    },
+                    new Modeli
+                    {
+                        Naziv = "307",
+                        ProizvodjacId = 12,
+                        Tip_vozila = "Hatchback"
+                    });
+                _context.SaveChanges();
+            }
+            if (!_context.Podmodelis.Any())
+            {
+                _context.Podmodelis.AddRange(
+                    new Podmodeli
+                    {
+                        ModelID = 8,
+                        Broj_Sjedista = "5",
+                        Broj_Vrata = "5",
+                        Maksimalna_Snaga_kW = "77",
+                        Mijenjac = "Manual",
+                        Pogon = "Prednji",
+                        Vrsta_Goriva = "Diesel",
+                        Vrsta_Motora = "2.0 TDI"
+                    },
+                    new Podmodeli
+                    {
+                        ModelID = 9,
+                        Broj_Sjedista = "5",
+                        Broj_Vrata = "3",
+                        Maksimalna_Snaga_kW = "125",
+                        Mijenjac = "Automatic",
+                        Pogon = "Zadnji",
+                        Vrsta_Goriva = "Diesel",
+                        Vrsta_Motora = "2.0D"
+                    },
+                    new Podmodeli
+                    {
+                        ModelID = 10,
+                        Broj_Sjedista = "5",
+                        Broj_Vrata = "5",
+                        Maksimalna_Snaga_kW = "125",
+                        Mijenjac = "Automatic",
+                        Pogon = "XDrive",
+                        Vrsta_Goriva = "Diesel",
+                        Vrsta_Motora = "2.0D"
+                    },
+                    new Podmodeli
+                    {
+                        ModelID = 11,
+                        Broj_Sjedista = "5",
+                        Broj_Vrata = "3",
+                        Maksimalna_Snaga_kW = "66",
+                        Mijenjac = "Manual",
+                        Pogon = "Prednji",
+                        Vrsta_Goriva = "Diesel",
+                        Vrsta_Motora = "1.6D"
+                    },
+                    new Podmodeli
+                    {
+                        ModelID = 12,
+                        Broj_Sjedista = "5",
+                        Broj_Vrata = "3",
+                        Maksimalna_Snaga_kW = "66",
+                        Mijenjac = "Manual",
+                        Pogon = "Prednji",
+                        Vrsta_Goriva = "Diesel",
+                        Vrsta_Motora = "1.6D"
+                    });
+                _context.SaveChanges();
+            }
+            if (!_context.Vozilas.Any())
+            {
+                _context.Vozilas.AddRange(
+                    new Vozila
+                    {
+                        PodmodelId = 6,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = false,
+                        Datum_Isteka_Registracije = new DateTime(2021,05,23),
+                        Datum_Prve_Registracije = new DateTime(2017, 01, 16),
+                        Datum_Registracije = new DateTime(2020, 05, 23),
+                        Broj_Motora = "OIUfhh*73JI",
+                        Broj_sasije = "5325235253",
+                        Broj_Registracije = "A-733-284",
+                        Grodina_Proizvodnje = "2017",
+                        Predjena_kilometraza = "84766",
+                        Zamjena_ulja = "88000",
+                    },
+                    new Vozila
+                    {
+                        PodmodelId = 7,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = true,
+                        Datum_Isteka_Registracije = new DateTime(2021, 04, 23),
+                        Datum_Prve_Registracije = new DateTime(2018, 01, 22),
+                        Datum_Registracije = new DateTime(2020, 04, 23),
+                        Broj_Motora = "3ifj29uhnf9",
+                        Broj_sasije = "8932984789234",
+                        Broj_Registracije = "A-133-222",
+                        Grodina_Proizvodnje = "2018",
+                        Predjena_kilometraza = "33766",
+                        Zamjena_ulja = "36000",
+                    },
+                    new Vozila
+                    {
+                        PodmodelId = 8,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = true,
+                        Datum_Isteka_Registracije = new DateTime(2021, 01, 01),
+                        Datum_Prve_Registracije = new DateTime(2019, 11, 12),
+                        Datum_Registracije = new DateTime(2020, 01, 01),
+                        Broj_Motora = "HJD*&U@fIOJ",
+                        Broj_sasije = "3254325623",
+                        Broj_Registracije = "B-111-111",
+                        Grodina_Proizvodnje = "2019",
+                        Predjena_kilometraza = "21766",
+                        Zamjena_ulja = "28000",
+                    },
+                    new Vozila
+                    {
+                        PodmodelId = 9,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = false,
+                        Datum_Isteka_Registracije = new DateTime(2021, 05, 23),
+                        Datum_Prve_Registracije = new DateTime(2015, 01, 25),
+                        Datum_Registracije = new DateTime(2020, 05, 23),
+                        Broj_Motora = "FUWHJ8987",
+                        Broj_sasije = "6436346734",
+                        Broj_Registracije = "V-722-124",
+                        Grodina_Proizvodnje = "2014",
+                        Predjena_kilometraza = "145766",
+                        Zamjena_ulja = "150000",
+                    },
+                    new Vozila
+                    {
+                        PodmodelId = 10,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = false,
+                        Datum_Isteka_Registracije = new DateTime(2021, 05, 23),
+                        Datum_Prve_Registracije = new DateTime(2017, 03, 12),
+                        Datum_Registracije = new DateTime(2020, 05, 23),
+                        Broj_Motora = "NFWIJHI5675",
+                        Broj_sasije = "5326267423",
+                        Broj_Registracije = "B-274-553",
+                        Grodina_Proizvodnje = "2017",
+                        Predjena_kilometraza = "85766",
+                        Zamjena_ulja = "89000",
+                    },
+                    new Vozila
+                    {
+                        PodmodelId = 10,
+                        Daljinsko_otkljucavanje = true,
+                        Grijaci_Sjedista = true,
+                        Elektricni_podizaci_stakla = true,
+                        Zracni_Jastuci = true,
+                        Klima = true,
+                        Navigacijska_Oprema = true,
+                        Datum_Isteka_Registracije = new DateTime(2021, 05, 23),
+                        Datum_Prve_Registracije = new DateTime(2018, 01, 15),
+                        Datum_Registracije = new DateTime(2020, 05, 23),
+                        Broj_Motora = "IUWFFWHG7687",
+                        Broj_sasije = "35265236632",
+                        Broj_Registracije = "B-274-554",
+                        Grodina_Proizvodnje = "2018",
+                        Predjena_kilometraza = "44726",
+                        Zamjena_ulja = "50000",
+                    });
+                _context.SaveChanges();
+            }
+            if (!_context.Zaposlenicis.Any())
+            {
+                _context.Zaposlenicis.AddRange(
+                    new Zaposlenici
+                    {
+                        Adresa = "Adresa 1",
+                        GradID = _context.Gradovis.FirstOrDefault().Id,
+                        Ime = "Rijad",
+                        JMB = "1211995284475",
+                        KorisnickiNalogId = _context.Korisnicki_nalogs.Where(k=>k.Korsnicko_ime=="administrator").FirstOrDefault().Id,
+                        Korisnicko_Ime = "administrator",
+                        Prezime = "Spahic",
+                        Spol = "M"
+                    });
+                _context.SaveChanges();
+            }
         }
     }
 }
