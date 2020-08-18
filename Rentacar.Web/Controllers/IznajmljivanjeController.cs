@@ -31,6 +31,13 @@ namespace Rentacar.Web.Controllers
             iznajmiVozilo.Popust = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k => k.Korisnik).AsNoTracking().FirstOrDefault().Korisnik.Ostvareni_popust.ToString();
             return View("IznajmiVozilo", iznajmiVozilo);
         }
+        [Authorize(Roles = "Administrator,Kupac")]
+        public IActionResult NaloziList()
+        {
+            var korisnikId = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k => k.Korisnik).AsNoTracking().FirstOrDefault().Korisnik.Id;
+            var naloziZaKorisnika = _context.Nalogs.Where(n => n.KorisnikID == korisnikId).Include(v=>v.Vozilo).AsNoTracking().ToList();
+            return View("NaloziList", naloziZaKorisnika);
+        }
         public JsonResult GetModels(string proizvodjacId)
         {
             var list = _context.Modelis.Where(m => m.ProizvodjacId == int.Parse(proizvodjacId)).ToList();
