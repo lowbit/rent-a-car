@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,18 @@ namespace Rentacar.Web.Controllers
             var register = new RegisterVM();
             register.Opstine = _context.Opcines.ToListAsync().Result;
             return View("RegisterUser", register);
+        }
+        [Authorize]
+        public IActionResult UserDetails()
+        {
+            var korisnicki_nalog = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k=>k.Korisnik).ThenInclude(k=>k.Opcina).AsNoTracking().FirstOrDefault();
+            var userDetails = new UserDetailsVM();
+            userDetails.firstName = korisnicki_nalog.Korisnik.Ime;
+            userDetails.lastName = korisnicki_nalog.Korisnik.Prezime;
+            userDetails.username = korisnicki_nalog.UserName;
+            userDetails.email = korisnicki_nalog.Email;
+            userDetails.opstina = korisnicki_nalog.Korisnik.Opcina.Naziv;
+            return View("UserDetails", userDetails);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
