@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,94 @@ namespace Rentacar.Web.Controllers
             var korisnikId = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k => k.Korisnik).AsNoTracking().FirstOrDefault().Korisnik.Id;
             var naloziZaKorisnika = _context.Nalogs.Where(n => n.KorisnikID == korisnikId).Include(v=>v.Vozilo).AsNoTracking().ToList();
             return View("NaloziList", naloziZaKorisnika);
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult NaloziListPotvrda()
+        {
+            var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+            return View("NaloziListPotvrda", nalozi);
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult NalogUnesiPredjenuKm([Bind("Predjenja_Kilometraza, Id")]Nalog nalog)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var nalogDb = _context.Nalogs.Where(n => n.Id == nalog.Id).FirstOrDefault();
+                    nalogDb.Predjenja_Kilometraza = nalog.Predjenja_Kilometraza;
+                    _context.Nalogs.Update(nalogDb);
+                    _context.SaveChanges();
+                    var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+                    return View("NaloziListPotvrda", nalozi);
+                } 
+                catch
+                {
+                    var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+                    return View("NaloziListPotvrda", nalozi);
+                }
+            }
+            var nalogReturn = _context.Nalogs.Where(n => n.Id == nalog.Id).FirstOrDefault();
+            return View("NalogZavrsi", nalogReturn);
+        }
+        [Authorize(Roles ="Administrator")]
+        public IActionResult NalogPonisti(int id)
+        {
+            try
+            {
+                var nalog = _context.Nalogs.Where(n => n.Id == id).FirstOrDefault();
+                var uplata = _context.Uplates.Where(u => u.NalogID == id).FirstOrDefault();
+                _context.Uplates.Remove(uplata);
+                _context.Nalogs.Remove(nalog);
+                _context.SaveChanges();
+
+                var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+                return View("NaloziListPotvrda", nalozi);
+            }
+            catch (Exception ex)
+            {
+                var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+                return View("NaloziListPotvrda", nalozi);
+            }
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult NalogOdobri(int id)
+        {
+            try
+            {
+                var nalog = _context.Nalogs.Where(n => n.Id == id).FirstOrDefault();
+                var korisnickiNalogId = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).FirstOrDefault().Id;
+                var zaposlenikId = _context.Zaposlenicis.Where(z => z.KorisnickiNalogId == korisnickiNalogId).FirstOrDefault().Id;
+                nalog.ZaposlenikID = zaposlenikId;
+                nalog.Datum_I_Vrijeme_Odobrenja = DateTime.Now;
+                var uplata = new Uplate();
+                uplata.Datum_Uplate = DateTime.Now;
+                uplata.Iznos_U_KM = nalog.Iznos_U_KM;
+                uplata.KorisnikID = nalog.KorisnikID;
+                uplata.NalogID = nalog.Id;
+                uplata.VoziloID = nalog.VoziloID;
+                _context.Uplates.Add(uplata);
+                _context.SaveChanges();
+                _context.Nalogs.Update(nalog);
+                _context.SaveChanges();
+                var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
+                return View("NaloziListPotvrda", nalozi);
+            } catch(Exception ex)
+            {
+                return View("Index", "Home");
+            }
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult NalogZavrsi(Nalog nalog)
+        {
+            var nalogDb = _context.Nalogs.Where(n => n.Id == nalog.Id).Include(n => n.Vozilo).AsNoTracking().FirstOrDefault();
+            return View("NalogZavrsi", nalogDb);
+        }
+        [Authorize(Roles = "Administrator")]
+        public IActionResult NaloziZavrsi(int id)
+        {
+            var nalog = _context.Nalogs.Where(n => n.Id == id).Include(n=>n.Vozilo).AsNoTracking().FirstOrDefault();
+            return View("NalogZavrsi", nalog);
         }
         public JsonResult GetModels(string proizvodjacId)
         {
@@ -153,8 +242,10 @@ namespace Rentacar.Web.Controllers
                 try
                 {
                     _context.Nalogs.Add(nalog);
-                    _context.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    _context.SaveChanges(); 
+                    var korisnikId = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k => k.Korisnik).AsNoTracking().FirstOrDefault().Korisnik.Id;
+                    var naloziZaKorisnika = _context.Nalogs.Where(n => n.KorisnikID == korisnikId).Include(v => v.Vozilo).AsNoTracking().ToList();
+                    return View("NaloziList", naloziZaKorisnika);
                 }
                 catch (Exception ex)
                 {
