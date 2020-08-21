@@ -91,6 +91,14 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+.notificationNumber {
+    display: inline-block !important;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    padding: 0px 6px;
+    font-weight: bold;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     .delete-modal-content {

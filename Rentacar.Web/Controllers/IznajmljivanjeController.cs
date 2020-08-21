@@ -56,6 +56,13 @@ namespace Rentacar.Web.Controllers
                     nalogDb.Predjenja_Kilometraza = nalog.Predjenja_Kilometraza;
                     _context.Nalogs.Update(nalogDb);
                     _context.SaveChanges();
+                    var obavijest = new Notifikacije();
+                    obavijest.Datum_i_vrijeme_objave = DateTime.Now.ToString();
+                    obavijest.Naslov = "Nalog Zavrsen";
+                    obavijest.Sadrzaj = "Vas nalog je zavrsen, zahvaljujemo na koristenju usluga Rent-a-car, nadamo se buducoj saradnji! Pregledajte listu trenutnih naloga na: <a href='/Iznajmljivanje/NaloziList' >Moji Nalozi</a>";
+                    obavijest.KorisnikId = _context.Korisnicki_nalogs.Where(k => k.KorisnikId == nalogDb.KorisnikID).FirstOrDefault().Id;
+                    _context.Notifikacijes.Add(obavijest);
+                    _context.SaveChanges();
                     var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
                     return View("NaloziListPotvrda", nalozi);
                 } 
@@ -74,9 +81,17 @@ namespace Rentacar.Web.Controllers
             try
             {
                 var nalog = _context.Nalogs.Where(n => n.Id == id).FirstOrDefault();
-                var uplata = _context.Uplates.Where(u => u.NalogID == id).FirstOrDefault();
-                _context.Uplates.Remove(uplata);
+                var uplate = _context.Uplates.Where(u => u.NalogID == id).ToList();
+                _context.Uplates.RemoveRange(uplate);
                 _context.Nalogs.Remove(nalog);
+                _context.SaveChanges();
+
+                var obavijest = new Notifikacije();
+                obavijest.Datum_i_vrijeme_objave = DateTime.Now.ToString();
+                obavijest.Naslov = "Nalog Ponisten";
+                obavijest.Sadrzaj = "Vas nalog je ponisten! Pregledajte listu trenutnih naloga na: <a href='/Iznajmljivanje/NaloziList'>Moji Nalozi</a>";
+                obavijest.KorisnikId = _context.Korisnicki_nalogs.Where(k=>k.KorisnikId==nalog.KorisnikID).FirstOrDefault().Id;
+                _context.Notifikacijes.Add(obavijest);
                 _context.SaveChanges();
 
                 var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
@@ -107,6 +122,13 @@ namespace Rentacar.Web.Controllers
                 _context.Uplates.Add(uplata);
                 _context.SaveChanges();
                 _context.Nalogs.Update(nalog);
+                _context.SaveChanges();
+                var obavijest = new Notifikacije();
+                obavijest.Datum_i_vrijeme_objave = DateTime.Now.ToString();
+                obavijest.Naslov = "Nalog Odobren";
+                obavijest.Sadrzaj = "Vas nalog je odobren! Pregledajte listu trenutnih naloga na: " + "<a href='/Iznajmljivanje/NaloziList'>Moji Nalozi</a>";
+                obavijest.KorisnikId = _context.Korisnicki_nalogs.Where(k => k.KorisnikId == nalog.KorisnikID).FirstOrDefault().Id;
+                _context.Notifikacijes.Add(obavijest);
                 _context.SaveChanges();
                 var nalozi = _context.Nalogs.Include(v => v.Vozilo).AsNoTracking().ToList();
                 return View("NaloziListPotvrda", nalozi);

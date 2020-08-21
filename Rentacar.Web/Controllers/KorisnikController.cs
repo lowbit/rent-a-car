@@ -30,6 +30,8 @@ namespace Rentacar.Web.Controllers
         }
         public IActionResult Register()
         {
+            if (this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             var register = new RegisterVM();
             register.Opstine = _context.Opcines.ToListAsync().Result;
             return View("RegisterUser", register);

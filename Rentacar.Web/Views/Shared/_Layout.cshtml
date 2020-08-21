@@ -7,7 +7,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
+        <link rel="stylesheet" href="~/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
+<body onload="GetNoOfNotifications()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -32,8 +32,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Vijesti" asp-action="Index">Vijesti</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="ONama">O nama</a></li>
                 </ul>
                 <ul class="goback nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
@@ -42,10 +42,9 @@
                             <a asp-area="" asp-controller="Korisnik" asp-action="UserDetails">Profil: @User.Identity.Name</a>
                         </li>
                     }
-                    @if (User.IsInRole("Kupac"))
+                    @if (User.Identity.IsAuthenticated)
                     {
-
-                        <li><a>Notifikacije (X)</a></li>
+                        <li><a asp-area="" asp-controller="Novosti" asp-action="Index">Notifikacije <span id="notifikacije" style="display: none;"></span></a></li>
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -68,10 +67,13 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - Rentacar.Web</p>
+            <p>&copy; 2020 - Rentacar.Web</p>
         </footer>
     </div>
 
+
+        <script>
+        </script>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

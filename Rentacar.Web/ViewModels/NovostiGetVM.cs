@@ -10,6 +10,7 @@ namespace Rentacar.Web.ViewModels
         public List<Row> rows { get; set; }
         public class Row
         {
+            public int Id {get; set;}
             public string Naslov { get; set; }
             public string Sadrzaj { get; set; }
             public string Datum_i_vrijeme_objave { get; set; }

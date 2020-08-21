@@ -8,8 +8,8 @@
 <h2>GetNovosti</h2>
 @foreach (var x in ulazniModel.rows)
 {
-    <h1>@x.Naslov</h1>
-    <p>@x.Sadrzaj</p>
+    <h3>@x.Naslov</h3>
+    <p>@Html.Raw(@x.Sadrzaj)</p>
     <div>@x.Datum_i_vrijeme_objave</div>
 }
 <div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace Rentacar.Web.Controllers
             VijestDetailVM vijestVM = new VijestDetailVM();
             vijestVM.Vijest = vijest;
 
-            vijestVM.Komentari = await _context.Komentaris.Where(k => k.VijestId == id).Include(a => a.Autor).ThenInclude(k => k.Korisnik).AsNoTracking().ToListAsync();
+            vijestVM.Komentari = await _context.Komentaris.Where(k => k.VijestId == id).Include(a => a.Autor).ThenInclude(k => k.Korisnik).AsNoTracking().OrderByDescending(k=>k.Id).ToListAsync();
             vijestVM.NoviKomentar = new Komentari();
             return View("VijestiDetails", vijestVM);
         }
@@ -75,11 +76,24 @@ namespace Rentacar.Web.Controllers
                 {
                     model.Ukupno_pregleda = 0;
                     model.Datum_i_vrijeme_objave = DateTime.Now;
-                    //Until login system implemented correctly
-                    var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
-                    model.AutorId = kNalog.Result.Id;
+
+                    var kNalog = _context.Korisnicki_nalogs.Where(k=>k.UserName == this.User.Identity.Name).FirstOrDefault();
+                    model.AutorId = kNalog.Id;
                     model.Slika = filePath;
                     _context.Add(model);
+                    _context.SaveChanges();
+                    var korisnici = _context.Korisnicki_nalogs.ToList();
+                    List<Notifikacije> notifikacije = new List<Notifikacije>();
+                    korisnici.ForEach(k =>
+                    {
+                        var obavijest = new Notifikacije();
+                        obavijest.Datum_i_vrijeme_objave = DateTime.Now.ToString();
+                        obavijest.Naslov = "Nova Vijest";
+                        obavijest.Sadrzaj = "Procitajte objavljenu vijest: " + "<a href='/Vijesti/Details/" + model.Id + "'>" + model.Naslov + "</a>";
+                        obavijest.KorisnikId = k.Id;
+                        notifikacije.Add(obavijest);
+                    });
+                    _context.Notifikacijes.AddRange(notifikacije);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = model.Id });
                 }
@@ -159,6 +173,11 @@ namespace Rentacar.Web.Controllers
             var filePath = "images/vijesti/" + timeString + file.FileName;
             return filePath;
         }
+        public IActionResult AddKomentar()
+        {
+            return RedirectToAction("Index", "Vijesti");
+        }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddKomentar(VijestDetailVM model)
@@ -169,8 +188,7 @@ namespace Rentacar.Web.Controllers
                 {
                     model.NoviKomentar.VijestId = model.Vijest.Id;
                     model.NoviKomentar.Datum_objave = DateTime.Now;
-                    //Until login system implemented correctly
-                    var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
+                    var kNalog = _context.Korisnicki_nalogs.Where(k=>k.UserName==this.User.Identity.Name).FirstOrDefaultAsync();
                     model.NoviKomentar.AutorId = kNalog.Result.Id;
                     _context.Add(model.NoviKomentar);
                     await _context.SaveChangesAsync();

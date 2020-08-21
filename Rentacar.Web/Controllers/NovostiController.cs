@@ -17,10 +17,10 @@ namespace Rentacar.Web.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public IActionResult Index()
         {
-            int userId = 58;
+            var userId = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).FirstOrDefault().Id;
             ViewData["ulazniModel"] = new NovostiGetVM
             {
                 rows = _context.Notifikacijes.Select(x => new NovostiGetVM.Row
@@ -28,11 +28,25 @@ namespace Rentacar.Web.Controllers
                     Naslov = x.Naslov,
                     Sadrzaj = x.Sadrzaj,
                     Datum_i_vrijeme_objave = x.Datum_i_vrijeme_objave,
-                    KorisnikId = x.KorisnikId
-                }).Where(x=>x.KorisnikId.Equals(userId)).ToList()
+                    KorisnikId = x.KorisnikId,
+                    Id = x.Id
+                }).Where(x=>x.KorisnikId == userId).OrderByDescending(x=>x.Id).ToList()
             };
-
+            var novosti = _context.Notifikacijes.Where(n => n.KorisnikId == userId).ToList();
+            novosti.ForEach(n => n.Datum_i_vrijeme_pregleda = DateTime.Now.ToString());
+            _context.SaveChanges();
             return View("GetNovosti");
+        }
+        [Authorize]
+        public JsonResult GetNumberOfNewNotifications()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var id = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).FirstOrDefault().Id;
+                var numberOfNotifications = _context.Notifikacijes.Where(n => n.KorisnikId == id && n.Datum_i_vrijeme_pregleda==null).Count();
+                return Json(numberOfNotifications);
+            }
+            return Json(0);
         }
     }
 }

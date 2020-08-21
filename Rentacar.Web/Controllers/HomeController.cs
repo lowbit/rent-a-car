@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rentacar.Data.EF;
 
@@ -21,7 +22,7 @@ namespace Rentacar.Web.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles ="Administrator")]
         public IActionResult TestDB()
         {
             _db.Notifikacijes.Count();
