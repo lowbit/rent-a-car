@@ -55,6 +55,7 @@ namespace Rentacar.Web.Controllers
             vijestVM.NoviKomentar = new Komentari();
             return View("VijestiDetails", vijestVM);
         }
+        [Authorize(Roles ="Administrator")]
         public ActionResult AddEdit(int? id)
         {
             if (id == null)

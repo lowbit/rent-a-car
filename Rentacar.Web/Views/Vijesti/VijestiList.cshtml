@@ -3,70 +3,71 @@
 @{
     ViewData["Title"] = "Vijesti";
 }
-    <div class="container-fluid">
+<div class="container-fluid">
+    <div class="row">
+        <h2>
+            Vijesti
+            @if (this.User.IsInRole("Administrator"))
+            {<a type="button" class="btn btn-primary" asp-action="AddEdit" style="float:right">Dodaj Novu Vijest</a>}
+        </h2>
+    </div>
+    <br />
+    @foreach (var item in Model)
+    {
         <div class="row">
-            <h2>
-                Vijesti
-                <a type="button" class="btn btn-primary" asp-action="AddEdit" style="float:right">Add</a>
-            </h2>
-        </div>
-        <br />
-        @foreach (var item in Model)
-        {
-            <div class="row">
+            <a asp-action="Details" asp-route-id="@item.Id">
+                <div class="col-md-2 vijestiFrame">
+                    <img src="~/@Url.Content(item.Slika)" alt="~/@Html.DisplayFor(modelItem => item.Slika)" class="img-thumbnail vijestiPic" style="width: auto; height: 100%;">
+                </div>
+            </a>
+            <div class="col-md-10 vijestiListItem">
                 <a asp-action="Details" asp-route-id="@item.Id">
-                    <div class="col-md-2 vijestiFrame">
-                        <img src="~/@Url.Content(item.Slika)" alt="~/@Html.DisplayFor(modelItem => item.Slika)" class="img-thumbnail vijestiPic" style="width: auto; height: 100%;">
-                    </div>
+                    <h3>@Html.DisplayFor(modelItem => item.Naslov)</h3>
                 </a>
-                <div class="col-md-10 vijestiListItem">
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        <h3>@Html.DisplayFor(modelItem => item.Naslov)</h3>
-                    </a>
-                    @Html.DisplayFor(modelItem => item.Sadrzaj)
-                </div>
-                <div class="col-md-12" style="text-align: right;">
-                    Ukupno pregleda: @item.Ukupno_pregleda |
-                    Datum: @item.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy HH:mm") |
-                    <a type="button" class="btn btn-link btn-xs" asp-action="AddEdit" asp-route-id="@item.Id">Edit</a>
-                </div>
+                @Html.DisplayFor(modelItem => item.Sadrzaj)
             </div>
-        }
-        @{
-            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-        }
-        <div class="text-center">
+            <div class="col-md-12" style="text-align: right;">
+                Ukupno pregleda: @item.Ukupno_pregleda |
+                Datum: @item.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy HH:mm") |
+                <a type="button" class="btn btn-link btn-xs" asp-action="AddEdit" asp-route-id="@item.Id">Edit</a>
+            </div>
+        </div>
+    }
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <div class="text-center">
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            <
+        </a>
+        @if (@Model.HasPreviousPage)
+        {
             <a asp-action="Index"
                asp-route-pageNumber="@(Model.PageIndex - 1)"
-               class="btn btn-default @prevDisabled">
-                <
+               class="btn btn-link @prevDisabled">
+                @(Model.PageIndex - 1)
             </a>
-            @if (@Model.HasPreviousPage)
-            {
-                <a asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageIndex - 1)"
-                   class="btn btn-link @prevDisabled">
-                    @(Model.PageIndex - 1)
-                </a>
-            }
-            <a asp-action="Index"
-               asp-route-pageNumber="@(Model.PageIndex)"
-               class="btn btn-link disabled">
-                @(Model.PageIndex)
-            </a>
-            @if (@Model.HasNextPage)
-            {
-                <a asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageIndex + 1)"
-                   class="btn btn-link @nextDisabled">
-                    @(Model.PageIndex + 1)
-                </a>
-            }
+        }
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex)"
+           class="btn btn-link disabled">
+            @(Model.PageIndex)
+        </a>
+        @if (@Model.HasNextPage)
+        {
             <a asp-action="Index"
                asp-route-pageNumber="@(Model.PageIndex + 1)"
-               class="btn btn-default @nextDisabled">
-                >
+               class="btn btn-link @nextDisabled">
+                @(Model.PageIndex + 1)
             </a>
-        </div>
+        }
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            >
+        </a>
     </div>
+</div>

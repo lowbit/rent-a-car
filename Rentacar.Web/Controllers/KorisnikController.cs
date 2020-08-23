@@ -68,6 +68,7 @@ namespace Rentacar.Web.Controllers
                     korisnik.Ime = registerUser.Ime;
                     korisnik.Prezime = registerUser.Prezime;
                     korisnik.OpcinaId = registerUser.Opstina;
+                    korisnik.Ostvareni_popust = 10;
                     nalog.Korisnik = korisnik;
                     nalog.Datum_prijave = DateTime.Now.ToString();
                     nalog.Korsnicko_ime = registerUser.Username;
@@ -82,6 +83,13 @@ namespace Rentacar.Web.Controllers
                     }
                     //Default new user is "Kupac"
                     await _userManager.AddToRoleAsync(nalog, "Kupac");
+
+                    var obavijest = new Notifikacije();
+                    obavijest.Datum_i_vrijeme_objave = DateTime.Now.ToString();
+                    obavijest.Naslov = "Dobro Došli!";
+                    obavijest.Sadrzaj = "Dobro došli na portal Rent-a-car! Uživajte u popustu od 10% za sve usluge.";
+                    obavijest.KorisnikId = _context.Korisnicki_nalogs.Where(k => k.KorisnikId == nalog.KorisnikId).FirstOrDefault().Id;
+                    _context.Notifikacijes.Add(obavijest);
 
                     return RedirectToAction("Login", "Korisnik", new { tekRegistrovan = true });
                 }

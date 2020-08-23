@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rentacar.Data.EF;
+using Rentacar.Web.ViewModels;
 
 namespace Rentacar.Web.Controllers
 {
@@ -20,7 +22,14 @@ namespace Rentacar.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var home = new HomeVM();
+            home.Vijesti = _db.Vijestis.OrderByDescending(v => v.Id).ToList().Take(3);
+            if (this.User.Identity.IsAuthenticated) {
+
+                var korisnikId = _db.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).Include(k => k.Korisnik).AsNoTracking().FirstOrDefault().Korisnik.Id;
+                home.Nalozi = _db.Nalogs.Include(v => v.Vozilo).AsNoTracking().Where(x => x.KorisnikID == korisnikId).OrderByDescending(v => v.Id).ToList().Take(3);
+            }
+            return View(home);
         }
         [Authorize(Roles ="Administrator")]
         public IActionResult TestDB()
