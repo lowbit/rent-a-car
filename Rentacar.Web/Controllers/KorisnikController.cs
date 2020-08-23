@@ -90,7 +90,7 @@ namespace Rentacar.Web.Controllers
                     obavijest.Sadrzaj = "Dobro došli na portal Rent-a-car! Uživajte u popustu od 10% za sve usluge.";
                     obavijest.KorisnikId = _context.Korisnicki_nalogs.Where(k => k.KorisnikId == nalog.KorisnikId).FirstOrDefault().Id;
                     _context.Notifikacijes.Add(obavijest);
-
+                    _context.SaveChanges();
                     return RedirectToAction("Login", "Korisnik", new { tekRegistrovan = true });
                 }
                 registerUser.Password = "";

@@ -122,9 +122,8 @@ namespace Rentacar.Web.Controllers
                         model.Slika = filePath;
                     }
                     model.Datum_i_vrijeme_objave = DateTime.Now;
-                    //Until login system implemented correctly
-                    var kNalog = _context.Korisnicki_nalogs.FirstOrDefaultAsync();
-                    model.AutorId = kNalog.Result.Id;
+                    var kNalog = _context.Korisnicki_nalogs.Where(k => k.UserName == this.User.Identity.Name).FirstOrDefault();
+                    model.AutorId = kNalog.Id;
                     _context.Update(model);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = model.Id });

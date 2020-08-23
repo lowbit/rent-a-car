@@ -152,11 +152,13 @@
             });
             $('#datetimepicker3').datetimepicker({
                 format: 'DD.MM.YYYY - HH:mm',
-                daysOfWeekDisabled: [0, 6]
+                daysOfWeekDisabled: [0, 6],
+                minDate: moment()
             });
             $('#datetimepicker4').datetimepicker({
                 format: 'DD.MM.YYYY - HH:mm',
-                daysOfWeekDisabled: [0, 6]
+                daysOfWeekDisabled: [0, 6],
+                minDate: moment()
             });
             $("#datetimepicker3").on("dp.change", function (e) {
                 $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
