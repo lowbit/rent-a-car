@@ -44,7 +44,7 @@ namespace Rentacar.Web
             });
             services.AddTransient<SeedData>();
             services.AddDbContext<MyContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("fax"), x=>x.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));
+            options.UseSqlServer(Configuration.GetConnectionString("azure"), x=>x.MigrationsAssembly(typeof(MyContext).Assembly.FullName)));
 
 
             services.AddMvc(options =>
