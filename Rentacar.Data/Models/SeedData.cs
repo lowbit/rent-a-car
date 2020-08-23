@@ -536,31 +536,31 @@ namespace Rentacar.Data.Models
                     new Modeli
                     {
                         Naziv = "Golf 7",
-                        ProizvodjacId = 10,
+                        ProizvodjacId = 1,
                         Tip_vozila = "Hatchback"
                     }, 
                     new Modeli
                     {
                         Naziv = "3 Serija",
-                        ProizvodjacId = 11,
+                        ProizvodjacId = 2,
                         Tip_vozila = "Sedan"
                     },
                     new Modeli
                     {
                         Naziv = "5 Serija",
-                        ProizvodjacId = 11,
+                        ProizvodjacId = 2,
                         Tip_vozila = "Sedan"
                     },
                     new Modeli
                     {
                         Naziv = "207",
-                        ProizvodjacId = 12,
+                        ProizvodjacId = 3,
                         Tip_vozila = "Hatchback"
                     },
                     new Modeli
                     {
                         Naziv = "307",
-                        ProizvodjacId = 12,
+                        ProizvodjacId = 3,
                         Tip_vozila = "Hatchback"
                     });
                 _context.SaveChanges();
@@ -570,7 +570,7 @@ namespace Rentacar.Data.Models
                 _context.Podmodelis.AddRange(
                     new Podmodeli
                     {
-                        ModelID = 8,
+                        ModelID = 11,
                         Broj_Sjedista = "5",
                         Broj_Vrata = "5",
                         Maksimalna_Snaga_kW = "77",
@@ -581,7 +581,7 @@ namespace Rentacar.Data.Models
                     },
                     new Podmodeli
                     {
-                        ModelID = 9,
+                        ModelID = 12,
                         Broj_Sjedista = "5",
                         Broj_Vrata = "3",
                         Maksimalna_Snaga_kW = "125",
@@ -592,7 +592,7 @@ namespace Rentacar.Data.Models
                     },
                     new Podmodeli
                     {
-                        ModelID = 10,
+                        ModelID = 13,
                         Broj_Sjedista = "5",
                         Broj_Vrata = "5",
                         Maksimalna_Snaga_kW = "125",
@@ -603,7 +603,7 @@ namespace Rentacar.Data.Models
                     },
                     new Podmodeli
                     {
-                        ModelID = 11,
+                        ModelID = 14,
                         Broj_Sjedista = "5",
                         Broj_Vrata = "3",
                         Maksimalna_Snaga_kW = "66",
@@ -614,7 +614,7 @@ namespace Rentacar.Data.Models
                     },
                     new Podmodeli
                     {
-                        ModelID = 12,
+                        ModelID = 15,
                         Broj_Sjedista = "5",
                         Broj_Vrata = "3",
                         Maksimalna_Snaga_kW = "66",
@@ -630,7 +630,7 @@ namespace Rentacar.Data.Models
                 _context.Vozilas.AddRange(
                     new Vozila
                     {
-                        PodmodelId = 6,
+                        PodmodelId = 3,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
@@ -649,7 +649,7 @@ namespace Rentacar.Data.Models
                     },
                     new Vozila
                     {
-                        PodmodelId = 7,
+                        PodmodelId = 4,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
@@ -668,7 +668,7 @@ namespace Rentacar.Data.Models
                     },
                     new Vozila
                     {
-                        PodmodelId = 8,
+                        PodmodelId = 5,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
@@ -687,7 +687,7 @@ namespace Rentacar.Data.Models
                     },
                     new Vozila
                     {
-                        PodmodelId = 9,
+                        PodmodelId = 6,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
@@ -706,7 +706,7 @@ namespace Rentacar.Data.Models
                     },
                     new Vozila
                     {
-                        PodmodelId = 10,
+                        PodmodelId = 7,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
@@ -725,7 +725,7 @@ namespace Rentacar.Data.Models
                     },
                     new Vozila
                     {
-                        PodmodelId = 10,
+                        PodmodelId = 7,
                         Daljinsko_otkljucavanje = true,
                         Grijaci_Sjedista = true,
                         Elektricni_podizaci_stakla = true,
