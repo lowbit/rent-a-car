@@ -31,6 +31,10 @@ namespace Rentacar.Web.Controllers
             }
             return View(home);
         }
+        public IActionResult ONama()
+        {
+            return View("ONama");
+        }
         [Authorize(Roles ="Administrator")]
         public IActionResult TestDB()
         {
