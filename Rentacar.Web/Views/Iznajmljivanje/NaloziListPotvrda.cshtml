@@ -1,0 +1,68 @@
+﻿@model List<Rentacar.Data.Models.Nalog>
+@{
+    ViewData["Title"] = "Lista naloga";
+}
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <table class="table">
+        <thead>
+            <tr style="text-align:center">
+                <th scope="col">Iznos(KM)</th>
+                <th scope="col">Pocetna km</th>
+                <th scope="col">Predjena km</th>
+                <th scope="col">Vozilo</th>
+                <th scope="col">Datum Izdavanja</th>
+                <th scope="col">Datum Odobrenja</th>
+                <th scope="col">Preuzimanje</th>
+                <th scope="col">Vracanje</th>
+                <th scope="col">Odobri</th>
+                <th scope="col">Zavrsi</th>
+                <th scope="col">Ponisti</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var bgColor = "";
+                var odobri = "";
+                var zavrsi = "";
+                if (@item.Predjenja_Kilometraza != null)
+                {
+                    bgColor = "lightgreen";
+                    odobri = "disabled";
+                    zavrsi = "disabled";
+                }
+                else if (@item.Datum_I_Vrijeme_Odobrenja.Year > 2000)
+                {
+                    bgColor = "lightgoldenrodyellow";
+                    odobri = "disabled";
+                    zavrsi = "";
+                }
+                else
+                {   
+                    odobri = "";
+                    zavrsi = "";
+                    bgColor = "white";
+                }
+            <tr style="text-align:center;background-color:@bgColor">
+                <th>@item.Iznos_U_KM</th>
+                <td>@item.Pocetna_Kilometraza</td>
+                <td>@item.Predjenja_Kilometraza</td>
+                <td>@item.Vozilo.Broj_Registracije</td>
+                <td>@item.Datum_I_Vrijeme_Izdavanja.ToString("dd.MM.yyyy - HH:mm")</td>
+                <td>
+                    @if (@item.Datum_I_Vrijeme_Odobrenja.Year > 2000)
+                    {
+                        @item.Datum_I_Vrijeme_Odobrenja.ToString("dd.MM.yyyy - HH:mm")
+                    }
+                </td>
+                <td>@item.Datum_I_Vrijeme_Preuzimanja_Vozila.ToString("dd.MM.yyyy - HH:mm")</td>
+                <td>@item.Datum_I_Vrijeme_Vracanja_Vozila.ToString("dd.MM.yyyy - HH:mm")</td>
+                <td><a type="button" class="btn btn-default btn-sm @odobri" asp-action="NalogOdobri" asp-route-id="@item.Id">Odobri</a></td>
+                <td><a type="button" class="btn btn-primary btn-sm @zavrsi" asp-action="NalogZavrsi" asp-route-id="@item.Id">Zavrsi</a></td>
+                <td><a type="button" class="btn btn-danger btn-sm" asp-action="NalogPonisti" asp-route-id="@item.Id">Ponisti</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

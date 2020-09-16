@@ -1,0 +1,48 @@
+﻿@model Rentacar.Data.Models.Nalog
+@{
+    ViewData["Title"] = "Zavrsi nalog";
+}
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr style="text-align:center">
+                    <th scope="col">Iznos u KM</th>
+                    <th scope="col">Pocetna km</th>
+                    <th scope="col">Predjena km</th>
+                    <th scope="col">Vozilo</th>
+                    <th scope="col">Datum Izdavanja</th>
+                    <th scope="col">Datum Odobrenja</th>
+                    <th scope="col">Preuzimanje Vozila</th>
+                    <th scope="col">Vracanje Vozila</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="text-align:center" ;>
+                    <th>@Model.Iznos_U_KM</th>
+                    <td>@Model.Pocetna_Kilometraza</td>
+                    <td>@Model.Predjenja_Kilometraza</td>
+                    <td>@Model.Vozilo.Broj_Registracije</td>
+                    <td>@Model.Datum_I_Vrijeme_Izdavanja.ToString("dd.MM.yyyy - HH:mm")</td>
+                    <td>@Model.Datum_I_Vrijeme_Odobrenja.ToString("dd.MM.yyyy - HH:mm")</td>
+                    <td>@Model.Datum_I_Vrijeme_Preuzimanja_Vozila.ToString("dd.MM.yyyy - HH:mm")</td>
+                    <td>@Model.Datum_I_Vrijeme_Vracanja_Vozila.ToString("dd.MM.yyyy - HH:mm")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <form asp-action="NalogUnesiPredjenuKm">
+            <input asp-for="Id" class="form-control" type="hidden" />
+            <div class="col-md-4">
+                <label asp-for="Predjenja_Kilometraza" class="control-label">Trenutna Kilometraza Automobila</label>
+                <input asp-for="Predjenja_Kilometraza" class="form-control" />
+                <span asp-validation-for="Predjenja_Kilometraza" class="label label-warning"></span>
+            </div>
+            <div class="col-md-12" style="padding-top: 10px;">
+                <input type="submit" class="btn btn-default" value="Potvrdi" />
+            </div>
+        </form>
+    </div>
+</div>

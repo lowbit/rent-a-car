@@ -1,0 +1,43 @@
+﻿@model Rentacar.Web.ViewModels.LoginVM;
+
+@{
+    ViewData["Title"] = "Prijava korisnika";
+}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            @if (Model != null && Model.NovoRegistrovan)
+            {
+                <div class="label label-success" style="font-size: 100%;">Uspješno ste se registrovali, prijavite se na sistem</div>
+            }
+            <h2>@ViewBag.Title</h2>
+            <form asp-action="Login" method="post">
+                <input asp-for="ReturnUrl" hidden />
+                <input asp-for="NovoRegistrovan" hidden />
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="label label-warning"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="label label-warning"></span>
+                </div>
+                <div class="form-group">
+                    <div class="form-check"></div>
+                    <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label">Zapamti me</label>
+                    <span asp-validation-for="RememberMe" class="label label-warning"></span>
+                </div>
+                <input type="submit" class="btn btn-default" value="Login" />
+                <hr />
+                <div class="form-group">
+                    <p>Ako nemate korisnički račun</p>
+                    <a class="btn btn-default" asp-action="register">Registrujte se</a>
+                </div>
+            </form>
+        </div>
+    </div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

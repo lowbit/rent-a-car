@@ -1,0 +1,30 @@
+﻿@model Rentacar.Web.ViewModels.UserDetailsVM;
+
+@{
+    ViewData["Title"] = "Korisnicki Profil";
+}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h3>@ViewData["Title"]</h3>
+        <div class="col-md-12">
+            <div class="col-md-5"><label class="control-label">Ime i Prezime</label></div>
+            <div class="col-md-7">@Model.firstName @Model.lastName</div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-5"><label class="control-label">Username</label></div>
+            <div class="col-md-7">@Model.username</div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-5"><label class="control-label">Email</label></div>
+            <div class="col-md-7">@Model.email</div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-5"><label class="control-label">Opstina</label></div>
+            <div class="col-md-7">@Model.opstina</div>
+        </div>
+
+        <div class="col-md-12">
+            <a class="btn btn-default" asp-action="EditProfile">Izmjeni Profil</a>
+        </div>
+    </div>
+</div>

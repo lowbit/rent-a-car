@@ -1,0 +1,72 @@
+﻿@model Rentacar.Web.ViewModels.VijestDetailVM
+
+@{
+    ViewData["Title"] = "Vijesti Detail";
+}
+<div class="container-fluid">
+    <div class="row">
+        <h2>
+            @ViewData["Title"]
+        </h2>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
+                <a asp-action="Details" asp-route-id="@Model.Vijest.Id">
+                    <h3>@Html.DisplayFor(modelItem => Model.Vijest.Naslov)</h3>
+                </a>
+            </div>
+            <div class="col-md-12 text-center paddingArticle">
+                <a asp-action="Details" asp-route-id="@Model.Vijest.Id">
+                    <img src="~/@Url.Content(Model.Vijest.Slika)" alt="~/@Html.DisplayFor(modelItem =>Model.Vijest.Slika)" class="img-rounded vijestiPic padding-md" style="width: 100%; height: auto;">
+                </a>
+            </div>
+            <div class="col-md-12 paddingArticle">
+                @Html.DisplayFor(modelItem => Model.Vijest.Sadrzaj)
+            </div>
+            <div class="col-md-12 paddingArticle" style="text-align: right;">
+                Autor: @Model.Vijest.Autor.Korisnik.Ime @Model.Vijest.Autor.Korisnik.Prezime |
+                Ukupno pregleda: @Model.Vijest.Ukupno_pregleda |
+                Datum: @Model.Vijest.Datum_i_vrijeme_objave.ToString("dd.MM.yyyy HH:mm") |
+                <a type="button" class="btn btn-link btn-xs" asp-action="AddEdit" asp-route-id="@Model.Vijest.Id">Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
+                <h4>Komentari (@Model.Komentari.Count().ToString())</h4>
+                <form asp-action="AddKomentar">
+                    <div class="form-group">
+                        <!--Following hidden inputs added for validation and returning Vijest model-->
+                        <input asp-for="Vijest.Id" class="form-control" type="hidden" />
+                        <input asp-for="Vijest.Sadrzaj" class="form-control" type="hidden" />
+                        <input asp-for="Vijest.Naslov" class="form-control" type="hidden" />
+
+                        <textarea asp-for="NoviKomentar.Sadrzaj" placeholder="Upišite komentar" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="NoviKomentar.Sadrzaj" class="label label-warning"></span>
+                        <div class="form-group">
+                            <input type="submit" value="Objavi komentar" class="btn btn-default btn-sm" style="float:right" />
+                        </div>
+                    </div>
+                </form>
+                <br />
+                @foreach (var item in Model.Komentari)
+                {
+                    <div class="paddingArticle">
+                        @item.Sadrzaj
+                        <br />
+                        <div style="float:right">
+                            @item.Autor.Korisnik.Ime @item.Autor.Korisnik.Prezime | @item.Datum_objave.ToString("dd.MM.yyyy HH:mm")
+                        </div>
+                        <hr />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

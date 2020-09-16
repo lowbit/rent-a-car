@@ -1,0 +1,97 @@
+﻿@model Rentacar.Data.Models.Vijesti
+
+@{
+    var formAction = (Model != null && Model.Id > 0) ? "Edit" : "Add";
+    if (@formAction == "Add")
+    {
+        ViewData["Title"] = "Add Vijest";
+    }
+    if (@formAction == "Edit")
+    {
+        ViewData["Title"] = "Edit Vijest";
+    }
+}
+<div class="row">
+    <div class="col-md-4">
+        <h4>
+            @formAction Vijest
+
+            @if (@formAction == "Edit")
+            {
+                <button class="btn btn-danger btn-xs btnDelete" onclick="document.getElementById('deletemodal').style.display='block'">Delete Item</button>
+            }
+        </h4>
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@formAction" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="label label-warning"></div>
+            @if (@formAction == "Edit")
+            {
+                <div class="form-group">
+                    <input asp-for="Id" class="form-control" type="hidden" />
+                    <span asp-validation-for="Id" class="label label-warning"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="Naslov" class="control-label"></label>
+                <input asp-for="Naslov" class="form-control" />
+                <span asp-validation-for="Naslov" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sadrzaj" class="control-label"></label>
+                <textarea asp-for="Sadrzaj" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Sadrzaj" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slika" class="control-label"></label>
+                @if (Model != null && Model.Slika != null)
+                {
+                    <img src="~/@Url.Content(Model.Slika)" alt="~/@Html.DisplayFor(modelItem => Model.Slika)" class="img-thumbnail vijestiPic" style="width: auto; height: 100%;">
+                }
+                <input asp-for="Slika" class="form-control" type="hidden" />
+                <div>
+                    <label class="btn btn-link btn-sm">
+                        Upload new picture<input type="file" name="file" style="display:none" id="uploadPicture" />
+                    </label>
+                </div>
+                <div class="uploadPictureLabel">
+                    <span asp-validation-for="Slika" class="label label-warning"></span>
+                    <label class="label label-success"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input asp-for="Ukupno_pregleda" class="form-control" type="hidden" />
+                <span asp-validation-for="Ukupno_pregleda" class="label label-warning"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+        <!-- Delete Confirmation Modal -->
+        @if (@formAction == "Edit")
+        {
+            <div id="deletemodal" class="deleteModal">
+                <span onclick="document.getElementById('deletemodal').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <form class="delete-modal-content" asp-action="Delete" asp-route-id="@Model.Id">
+                    <div class="deleteContainer">
+                        <h1>Delete Item</h1>
+                        <p>Are you sure you want to delete item ?</p>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-default" onclick="document.getElementById('deletemodal').style.display='none'">Cancel</button>
+                            <input type="submit" value="Delete Item" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

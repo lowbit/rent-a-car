@@ -1,0 +1,308 @@
+﻿@model Rentacar.Web.ViewModels.IznajmljivanjeVozilaVM;
+
+@{
+    ViewData["Title"] = "Iznajmi vozilo";
+}
+<div class="row">
+    <div class="col-md-8">
+        <h2>@ViewData["Title"]</h2>
+        <form asp-action="IznajmiVozilo">
+            <div class="col-md-12">
+                <input asp-for="KorisnikId" class="form-control" type="hidden" />
+                <input asp-for="ZaposlenikId" class="form-control" type="hidden" />
+                <input asp-for="Pocetna_Kilometraza" class="form-control" readonly="readonly" type="hidden" />
+                <input asp-for="BrojMotora" class="form-control" readonly="readonly" type="hidden" />
+                <input asp-for="BrojSasije" class="form-control" readonly="readonly" type="hidden" />
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label asp-for="Datum_I_Vrijeme_Preuzimanja_Vozila" class="control-label">Vrijeme Preuzimanja Vozila</label>
+                    <input id='datetimepicker3' type="text" asp-for="Datum_I_Vrijeme_Preuzimanja_Vozila" class="form-control dateInput" />
+                    <span asp-validation-for="Datum_I_Vrijeme_Preuzimanja_Vozila" class="label label-warning"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Datum_I_Vrijeme_Vracanja_Vozila" class="control-label">Vrijeme Vraćanja Vozila</label>
+                    <input id='datetimepicker4' type="text" asp-for="Datum_I_Vrijeme_Vracanja_Vozila" class="form-control dateInput" />
+                    <span asp-validation-for="Datum_I_Vrijeme_Vracanja_Vozila" class="label label-warning"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label asp-for="Proizvodjac" class="control-label"></label>
+                    <select class="form-control" asp-for="Proizvodjac" asp-items="@(new SelectList(Model.ProizvodjaciList,"Id", "Naziv"))" onchange="GetListModela()"></select>
+                    <span asp-validation-for="Proizvodjac" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Model" class="control-label"></label>
+                    <select class="form-control" asp-for="Model" asp-items="@(new SelectList(Model.ModeliList,"Id", "Naziv"))" onchange="GetListVozila()"></select>
+                    <span asp-validation-for="Model" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Vozilo" class="control-label"></label>
+                    <select class="form-control" asp-for="Vozilo" asp-items="@(new SelectList(Model.ModeliList,"Id", "Naziv"))" onchange="SetVoziloInfo()"></select>
+                    <span asp-validation-for="Vozilo" class="label label-warning"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h4>Detalji o vozilu</h4>
+                <div class="col-md-4">
+                    <label asp-for="GodinaProizvodnje" class="control-label">Godina Proizvodnje</label>
+                    <input asp-for="GodinaProizvodnje" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="GodinaProizvodnje" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Predjenja_Kilometraza" class="control-label">Predjenja Kilometraza</label>
+                    <input asp-for="Predjenja_Kilometraza" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Predjenja_Kilometraza" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="BrojRegistracije" class="control-label">Broj Registracije</label>
+                    <input asp-for="BrojRegistracije" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="BrojRegistracije" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="MaxSnaga" class="control-label">Snaga motora (KW)</label>
+                    <input asp-for="MaxSnaga" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="MaxSnaga" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Mjenjac" class="control-label"></label>
+                    <input asp-for="Mjenjac" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Mjenjac" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="VrstaGoriva" class="control-label">Vrsta Goriva</label>
+                    <input asp-for="VrstaGoriva" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="VrstaGoriva" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Pogon" class="control-label"></label>
+                    <input asp-for="Pogon" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Pogon" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="BrojSjedista" class="control-label">Broj Sjedista</label>
+                    <input asp-for="BrojSjedista" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="BrojSjedista" class="label label-warning"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="BrojVrata" class="control-label">Broj vrata</label>
+                    <input asp-for="BrojVrata" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="BrojVrata" class="label label-warning"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="checkbox" asp-for="Klima" class="form-check-input" readonly="readonly" />
+                        <label asp-for="Klima" class="form-check-label"></label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="checkbox" asp-for="GrSjedista" class="form-check-input" readonly="readonly" />
+                        <label asp-for="GrSjedista" class="form-check-label">Grijanje Sjedista</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="checkbox" asp-for="NavOprema" class="form-check-input" readonly="readonly" />
+                        <label asp-for="NavOprema" class="form-check-label">Navigacijska Oprema</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="checkbox" asp-for="ElPodStakla" class="form-check-input" readonly="readonly" />
+                        <label asp-for="ElPodStakla" class="form-check-label">El. podizaci stakala</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="checkbox" asp-for="ZrJastuci" class="form-check-input" readonly="readonly" />
+                        <label asp-for="ZrJastuci" class="form-check-label">Zracni jastuci</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <label asp-for="Iznos_U_KM" class="control-label">Ukupan Iznos(KM)</label>
+                    <input asp-for="Iznos_U_KM" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Iznos_U_KM" class="label label-warning"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Popust" class="control-label">Ostvareni Popust(%)</label>
+                    <input asp-for="Popust" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Popust" class="label label-warning"></span>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-top: 10px;">
+                <input type="submit" class="btn btn-default" value="Iznajmi vozilo" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD.MM.YYYY - HH:mm'
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'DD.MM.YYYY - HH:mm'
+            });
+            $('#datetimepicker3').datetimepicker({
+                format: 'DD.MM.YYYY - HH:mm',
+                daysOfWeekDisabled: [0, 6],
+                minDate: moment()
+            });
+            $('#datetimepicker4').datetimepicker({
+                format: 'DD.MM.YYYY - HH:mm',
+                daysOfWeekDisabled: [0, 6],
+                minDate: moment()
+            });
+            $("#datetimepicker3").on("dp.change", function (e) {
+                $('#datetimepicker4').data("DateTimePicker").minDate(e.date);
+                SetVoziloInfo();
+            });
+            $("#datetimepicker4").on("dp.change", function (e) {
+                $('#datetimepicker3').data("DateTimePicker").maxDate(e.date);
+                SetVoziloInfo();
+            });
+        });
+        function GetListModela() {
+            // get references to the source and target drop downs html controls
+            // These are jquery searches to find the drop down controls
+            // find a control with id=Manufacturer
+            src = $("#Proizvodjac");
+
+            // find a control with id=Model (you need to add this to your view)
+            tgt = $("#Model");
+            otgt = $('#Vozilo')
+
+            // clear drop down
+            tgt.empty();
+            otgt.empty();
+
+            // Get new model dataset via ajax
+            // based on manufacturer
+            // The url parameter points at your web method
+            $.ajax({
+                type: 'GET',
+                url: '/Iznajmljivanje/GetModels',
+                dataType: 'json',
+                data: { proizvodjacId: src.val() },
+                // success is called when dataset returns
+                success: function (p) {
+                    // Populate with each returned member
+                    $.each(p, function (i, pr) {
+                        tgt.append(
+                            '<option value="' + pr.value + '">' +
+                            pr.text + '</option>'
+                        );
+                    })
+                },
+                error: function (data, status, error) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(error);
+                }
+            });
+        }
+        function GetListVozila() {
+            src = $("#Model");
+            tgt = $("#Vozilo");
+            tgt.empty();
+            $.ajax({
+                type: 'GET',
+                url: '/Iznajmljivanje/GetVozila',
+                dataType: 'json',
+                data: { modelId: src.val() },
+                success: function (p) {
+                    $.each(p, function (i, pr) {
+                        tgt.append(
+                            '<option value="' + pr.value + '">' +
+                            pr.text + '</option>'
+                        );
+                    })
+                },
+                error: function (data, status, error) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(error);
+                }
+            });
+        }
+        function SetVoziloInfo() {
+            vozilo = $("#Vozilo");
+            odDatuma = $("#datetimepicker3");
+            doDatuma = $("#datetimepicker4");
+            if (vozilo.val() != null) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Iznajmljivanje/GetVoziloInfo',
+                    dataType: 'json',
+                    data: { voziloId: vozilo.val(), odDatuma: odDatuma.val(), doDatuma: doDatuma.val() },
+                    success: function (p) {
+                        setVoziloDetails(p);
+                    },
+                    error: function (data, status, error) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(error);
+                    }
+                });
+            }
+        }
+        function setVoziloDetails(model) {
+            doc = $("#Iznos_U_KM");
+            doc[0].value = model.iznos_U_KM;
+            doc2 = $("#ZrJastuci");
+            if (model.zrJastuci)
+                doc2[0].checked = 1;
+            else
+                doc2[0].checked = 0;
+            doc3 = $("#NavOprema");
+            if (model.navOprema)
+                doc3[0].checked = 1;
+            else
+                doc3[0].checked = 0;
+            doc4 = $("#GrSjedista");
+            if (model.grSjedista)
+                doc4[0].checked = 1;
+            else
+                doc4[0].checked = 0;
+            doc5 = $("#ElPodStakla");
+            if (model.elPodStakla)
+                doc5[0].checked = 1;
+            else
+                doc5[0].checked = 0;
+            doc6 = $("#Klima");
+            if (model.klima)
+                doc6[0].checked = 1;
+            else
+                doc6[0].checked = 0;
+            doc7 = $("#Pogon");
+            doc7[0].value = model.pogon;
+            doc8 = $("#Predjenja_Kilometraza");
+            doc8[0].value = model.predjenja_Kilometraza;
+            doc9 = $("#Mjenjac");
+            doc9[0].value = model.mjenjac;
+            doc10 = $("#MaxSnaga");
+            doc10[0].value = model.maxSnaga;
+            doc11 = $("#GodinaProizvodnje");
+            doc11[0].value = model.godinaProizvodnje;
+            doc12 = $("#BrojVrata");
+            doc12[0].value = model.brojVrata;
+            doc13 = $("#BrojSjedista");
+            doc13[0].value = model.brojSjedista;
+            doc14 = $("#BrojSasije");
+            doc14[0].value = model.brojSasije;
+            doc15 = $("#BrojRegistracije");
+            doc15[0].value = model.brojRegistracije;
+            doc16 = $("#BrojMotora");
+            doc16[0].value = model.brojMotora;
+            doc17 = $("#VrstaGoriva");
+            doc17[0].value = model.vrstaGoriva;
+        }
+    </script>
+}

@@ -1,0 +1,114 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+.vijestiListItem {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* after 3 line show ... */
+    -webkit-box-orient: vertical;
+}
+.vijestiFrame {
+    height: 150px;
+}
+.goback{
+    float:right;
+    display:inline;
+}
+.vijestiPic {
+    object-fit: contain;
+}
+.paddingArticle{
+    padding-top:12px;
+}
+/* Add padding and center-align text to the container */
+.deleteContainer {
+    padding: 16px;
+    text-align: center;
+}
+.dateInput {
+    line-height: 16px!important;
+}
+.form-control[readonly] {
+    background-color: #f8f8f8;
+}
+/* The Modal (background) */
+.deleteModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.delete-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 60%; /* Could be more or less, depending on screen size */
+}
+.btnDelete{
+    float:right;
+}
+/* Hide up down arrows on number input fields */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.notificationNumber {
+    display: inline-block !important;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    padding: 0px 6px;
+    font-weight: bold;
+}
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    .delete-modal-content {
+        width: 100%;
+    }
+        /* Hide captions */
+        .carousel-caption {
+        display: none;
+    }
+    .goback {
+        display: none;
+    }
+}
